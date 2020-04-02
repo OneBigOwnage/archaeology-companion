@@ -5,18 +5,18 @@ const initial = () => {
 };
 
 const getters = {
-    bySlug: (state) => slug => {
-        return state.items.find(artefact => artefact.slug() === slug);
+    bySlug: state => slug => {
+        return state.all.find(artefact => artefact.slug() === slug);
     }
 };
 
 const mutations = {
     add(state, artefact) {
-        state.items.push(artefact);
+        state.all.push(artefact);
     },
     update(state, updatedArtefact) {
-        const index = state.items.findIndex(artefact => artefact.name === updatedArtefact.name);
-        state.items[index] = updatedArtefact;
+        const index = state.all.findIndex(artefact => artefact.name === updatedArtefact.name);
+        state.all[index] = updatedArtefact;
     },
 };
 
