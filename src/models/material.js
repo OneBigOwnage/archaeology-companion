@@ -3,4 +3,8 @@ export default class Material {
         this.name = name;
         this.level = level;
     }
+
+    slug() {
+        return this.name.toLowerCase().replace(' ', '-');
+    }
 }
