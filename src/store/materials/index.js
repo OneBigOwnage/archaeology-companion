@@ -3,8 +3,8 @@ const initial = {
 };
 
 const getters = {
-    byID: (state) => ID => {
-        return state.items.find(mat => mat.ID === ID);
+    bySlug: (state) => slug => {
+        return state.items.find(mat => mat.slug() === slug);
     },
 };
 
