@@ -3,7 +3,7 @@
     <h1>This is the material overview</h1>
 
     <v-row>
-      <v-col v-for="(material, i) in this.$store.state.materials.items" :key="i" cols="2">
+      <v-col v-for="(material, i) in this.$store.state.materials.all" :key="i" cols="2">
         <v-hover v-slot:default="{ hover }">
           <v-card v-on:click="detailView(material)" :elevation="hover ? 12 : 2" :class="{ 'on-hover': hover }" class="material-overview--card">
             <v-card-title>{{ material.name }}</v-card-title>
