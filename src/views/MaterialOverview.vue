@@ -2,18 +2,20 @@
   <v-container fluid>
     <h1>This is the material overview</h1>
 
-    <v-row dense>
+    <v-row>
       <v-col v-for="(material, i) in this.$store.state.materials.items" :key="i" cols="2">
-        <v-card>
-          <v-card-title>{{ material.name }}</v-card-title>
-          <v-card-text class="text--primary">
-            <div>Level: {{ material.level }}</div>
-          </v-card-text>
-        </v-card>
+        <v-hover v-slot:default="{ hover }">
+          <v-card v-on:click="detailView(material)" :elevation="hover ? 12 : 2" :class="{ 'on-hover': hover }" class="material-overview--card">
+            <v-card-title>{{ material.name }}</v-card-title>
+            <v-card-text class="text--primary">
+              <div>Level: {{ material.level }}</div>
+            </v-card-text>
+          </v-card>
+        </v-hover>
       </v-col>
     </v-row>
 
-    <v-btn v-on:click="add()">Add items</v-btn>
+    <v-btn v-on:click="add()">Add mats</v-btn>
 
   </v-container>
 </template>
@@ -25,15 +27,19 @@ export default {
   name: 'MaterialOverview',
   methods: {
     add() {
-      this.$store.dispatch('materials/add', new Material('Mat 1', 1));
-      this.$store.dispatch('materials/add', new Material('Mat 2', 2));
-      this.$store.dispatch('materials/add', new Material('Mat 3', 3));
-      this.$store.dispatch('materials/add', new Material('Mat 4', 4));
+      for (let i = 1; i <= 15; i++) {
+        this.$store.dispatch('materials/add', new Material('Material ' + i, i));
+      }
+    },
+    detailView(material) {
+      this.$router.push({ name: 'material-details', params: {slug: material.slug()} });
     }
   }
 }
 </script>
 
 <style>
-
+.v-card.material-overview--card:hover {
+  cursor: pointer;
+}
 </style>
