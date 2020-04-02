@@ -26,7 +26,7 @@ const actions = {
     },
     update({ commit }, updatedArtefact) {
         commit('update', updatedArtefact);
-    }
+    },
 };
 
 export default {

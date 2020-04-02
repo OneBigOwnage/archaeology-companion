@@ -1,41 +1,37 @@
-const initial = {
-    items: [],
+const initial = () => {
+    return {
+        all: [],
+    };
 };
 
 const getters = {
-    bySlug: (state) => slug => {
-        return state.items.find(mat => mat.slug() === slug);
+    bySlug: state => slug => {
+        return state.all.find(material => material.slug() === slug);
     },
 };
 
 const mutations = {
-    add(state, mat) {
-        state.items.push(mat)
+    add(state, material) {
+        state.all.push(material)
     },
-    update(state, updatedMat) {
-        const index = state.items.findIndex(m => m.ID === updatedMat.ID);
-        state.items[index] = updatedMat;
+    update(state, updatedMaterial) {
+        const index = state.all.findIndex(material => material.name === updatedMaterial.name);
+        state.all[index] = updatedMaterial;
     },
-    setAll(state, allMats) {
-        state.items = allMats;
-    }
 };
 
 const actions = {
-    add({ commit }, mat) {
-        commit('add', mat);
+    add({ commit }, material) {
+        commit('add', material);
     },
-    update({ commit }, updatedMat) {
-        commit('update', updatedMat);
-    },
-    setAll({ commit }, allMats) {
-        commit('setAll', allMats);
+    update({ commit }, updatedMaterial) {
+        commit('update', updatedMaterial);
     },
 };
 
 export default {
     namespaced: true,
-    state: initial,
+    state: initial(),
     getters,
     actions,
     mutations,
