@@ -7,7 +7,7 @@
         solo-inverted
         flat
         hide-details
-        label="Search"
+        label="Search..."
         prepend-inner-icon="search"
       />
 
