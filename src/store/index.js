@@ -1,8 +1,8 @@
 import Vue from 'vue'
 import Vuex from 'vuex'
-import materials from './materials';
+import materials from '@/materials';
 import VuexClassPersistence from 'vuex-class-persist'
-import classes from './classes';
+import classes from '@/classes';
 
 Vue.use(Vuex)
 

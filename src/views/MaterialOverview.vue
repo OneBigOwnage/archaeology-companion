@@ -21,7 +21,7 @@
 </template>
 
 <script>
-import Material from './../models/material';
+import Material from '@/models/material';
 
 export default {
   name: 'MaterialOverview',
