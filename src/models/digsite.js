@@ -1,9 +1,8 @@
 import { sluggify } from '@/helpers';
 
-export default class Material {
-    constructor(name, level) {
+export default class DigSite {
+    constructor(name) {
         this.name = name;
-        this.level = level;
     }
 
     slug() {

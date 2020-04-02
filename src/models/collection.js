@@ -1,9 +1,9 @@
 import { sluggify } from '@/helpers';
 
-export default class Material {
-    constructor(name, level) {
+export default class Collection {
+    constructor(name, NPCName) {
         this.name = name;
-        this.level = level;
+        this.NPCName = NPCName;
     }
 
     slug() {
