@@ -15,22 +15,13 @@
       </v-col>
     </v-row>
 
-    <v-btn v-on:click="add()">Add mats</v-btn>
-
   </v-container>
 </template>
 
 <script>
-import Material from '@/models/material';
-
 export default {
   name: 'MaterialOverview',
   methods: {
-    add() {
-      for (let i = 1; i <= 15; i++) {
-        this.$store.dispatch('materials/add', new Material('Material ' + i, i));
-      }
-    },
     detailView(material) {
       this.$router.push({ name: 'material-details', params: {slug: material.slug()} });
     }
