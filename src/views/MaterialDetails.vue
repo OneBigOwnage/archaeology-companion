@@ -58,9 +58,8 @@ export default {
   methods: {
     loadMaterial() {
       const slug = this.$route.params.slug;
-      const mat = this.$store.getters['materials/bySlug'](slug);
 
-      this.material = mat;
+      this.material = this.$store.getters['materials/bySlug'](slug);
     }
   },
   computed: {
