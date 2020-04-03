@@ -6,41 +6,50 @@
       To overview
     </v-btn>
 
-    <v-row justify="center">
-
-      <v-col xs="12" lg="6">
-        <v-card outlined v-if="material">
-          <v-card-title>{{ material.name }}</v-card-title>
-          <v-card-text>Level {{ material.level }}</v-card-text>
-        </v-card>
-        <div v-else>Didn't load...</div>
-      </v-col>
-
+    <v-row v-if="!material" justify="center">
+      <v-progress-circular
+        :size="90"
+        :width="2"
+        color="amber"
+        indeterminate
+      ></v-progress-circular>
     </v-row>
 
-    <v-row justify="center">
-      <v-col xs="12" lg="3">
-        <v-card outlined v-if="material">
-          <v-card-title>Artefacts</v-card-title>
-          <v-card-text>
-            <div v-for="artefact in artefacts" :key="artefact">
-              {{ artefact }}
-            </div>
-          </v-card-text>
-        </v-card>
-      </v-col>
-      <v-col xs="12" lg="3">
-        <v-card outlined v-if="material">
-          <v-card-title>Excavations</v-card-title>
-          <v-card-text>
-            <div v-for="excavation in excavations" :key="excavation">
-              {{ excavation }}
-            </div>
+    <v-container v-else>
+      <v-row justify="center">
 
-          </v-card-text>
-        </v-card>
-      </v-col>
-    </v-row>
+        <v-col xs="12" lg="6">
+          <v-card outlined>
+            <v-card-title>{{ material.name }}</v-card-title>
+            <v-card-text>Level {{ material.level }}</v-card-text>
+          </v-card>
+        </v-col>
+
+      </v-row>
+
+      <v-row justify="center">
+        <v-col xs="12" lg="3">
+          <v-card outlined>
+            <v-card-title>Artefacts</v-card-title>
+            <v-card-text>
+              <div v-for="artefact in artefacts" :key="artefact">
+                {{ artefact }}
+              </div>
+            </v-card-text>
+          </v-card>
+        </v-col>
+        <v-col xs="12" lg="3">
+          <v-card outlined>
+            <v-card-title>Excavations</v-card-title>
+            <v-card-text>
+              <div v-for="excavation in excavations" :key="excavation">
+                {{ excavation }}
+              </div>
+            </v-card-text>
+          </v-card>
+        </v-col>
+      </v-row>
+    </v-container>
 
   </v-container>
 </template>
