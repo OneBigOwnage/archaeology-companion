@@ -42,7 +42,7 @@ export default class Seeder {
         this.$store.dispatch('digSites/reset');
 
         for (let i = 0; i < 5; i++) {
-            const site = new DigSite(faker.random.word());
+            const site = new DigSite(faker.random.word(), faker.random.number({ min: 1, max: 80 }));
 
             this.$store.dispatch('digSites/add', site);
         }
