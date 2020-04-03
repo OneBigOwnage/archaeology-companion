@@ -18,6 +18,9 @@ const mutations = {
         const index = state.all.findIndex(digSite => digSite.name === updatedDigSite.name);
         state.all[index] = updatedDigSite;
     },
+    reset(state) {
+        Object.assign(state, initial());
+    },
 };
 
 const actions = {
@@ -26,6 +29,9 @@ const actions = {
     },
     update({ commit }, updatedDigSite) {
         commit('update', updatedDigSite);
+    },
+    reset({ commit }) {
+        commit('reset');
     },
 };
 

@@ -18,6 +18,9 @@ const mutations = {
         const index = state.all.findIndex(artefact => artefact.name === updatedArtefact.name);
         state.all[index] = updatedArtefact;
     },
+    reset(state) {
+        Object.assign(state, initial());
+    },
 };
 
 const actions = {
@@ -26,6 +29,9 @@ const actions = {
     },
     update({ commit }, updatedArtefact) {
         commit('update', updatedArtefact);
+    },
+    reset({ commit }) {
+        commit('reset');
     },
 };
 

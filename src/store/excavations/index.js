@@ -18,6 +18,9 @@ const mutations = {
         const index = state.all.findIndex(excavation => excavation.name === updatedExcavation.name);
         state.all[index] = updatedExcavation;
     },
+    reset(state) {
+        Object.assign(state, initial());
+    },
 };
 
 const actions = {
@@ -26,6 +29,9 @@ const actions = {
     },
     update({ commit }, updatedExcavation) {
         commit('update', updatedExcavation);
+    },
+    reset({ commit }) {
+        commit('reset');
     },
 };
 
