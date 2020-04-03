@@ -1,44 +1,51 @@
 <template>
-  <main>
-    <h1>This is the artefact overview</h1>
-    <v-row dense>
-      <v-col v-for="card in cards" :key="card.title" :cols="card.flex">
-        <v-card>
-          <v-img
-            :src="card.src"
-            class="white--text align-end"
-            gradient="to bottom, rgba(0,0,0,.1), rgba(0,0,0,.5)"
-            height="200px"
-          >
-            <v-card-title v-text="card.title"></v-card-title>
-          </v-img>
+  <v-container fluid>
+    <h1>Artefacts</h1>
 
-          <v-card-actions>
-            <v-spacer></v-spacer>
+    <v-row>
+      <v-col v-for="(artefact, i) in this.$store.state.artefacts.all" :key="i" cols="3">
+        <v-hover v-slot:default="{ hover }">
+          <v-card v-on:click="detailView(artefact)" :elevation="hover ? 12 : 2" :class="{ 'on-hover': hover }" class="artefact-overview--card">
+            <v-card-title>{{ artefact.name }}</v-card-title>
+            <v-card-text class="text--primary">
 
-            <v-btn icon>
-              <v-icon>mdi-heart</v-icon>
-            </v-btn>
+              <div>
+                <span class="font-weight-medium">Excavation:</span>
+                {{ artefact.excavationSlug }}
+              </div>
 
-            <v-btn icon>
-              <v-icon>mdi-bookmark</v-icon>
-            </v-btn>
+              <div>
+                <span class="font-weight-medium">Experience:</span>
+                {{ artefact.xp }}
+              </div>
 
-            <v-btn icon>
-              <v-icon>mdi-share-variant</v-icon>
-            </v-btn>
-          </v-card-actions>
-        </v-card>
+              <div>
+                <span class="font-weight-medium">Base chronotes value:</span>
+                {{ artefact.chronotes }}
+              </div>
+
+            </v-card-text>
+          </v-card>
+        </v-hover>
       </v-col>
     </v-row>
-  </main>
+
+  </v-container>
 </template>
 
 <script>
 export default {
   name: 'ArtefactOverview',
+  methods: {
+    detailView(artefact) {
+      this.$router.push({ name: 'artefact-details', params: {slug: artefact.slug()} });
+    }
+  }
 }
 </script>
 
 <style>
+.v-card.artefact-overview--card:hover {
+  cursor: pointer;
+}
 </style>
