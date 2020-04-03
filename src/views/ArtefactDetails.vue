@@ -5,7 +5,7 @@
       To overview
     </v-btn>
 
-    <app-loader v-if="!digSite"></app-loader>
+    <app-loader v-if="!artefact"></app-loader>
 
     <v-container v-else>
       <v-row justify="center">
