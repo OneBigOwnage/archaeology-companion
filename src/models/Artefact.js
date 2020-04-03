@@ -11,4 +11,8 @@ export default class Artefact {
     slug() {
         return sluggify(this.name);
     }
+
+    formattedXP() {
+        return this.xp.toString().replace(/(\d)(?=(\d{3})+(?!\d))/g, '$1.');
+    }
 }
