@@ -5,14 +5,7 @@
       To overview
     </v-btn>
 
-    <v-row v-if="!artefact" justify="center">
-      <v-progress-circular
-        :size="90"
-        :width="2"
-        color="amber"
-        indeterminate
-      ></v-progress-circular>
-    </v-row>
+    <app-loader v-if="!digSite"></app-loader>
 
     <v-container v-else>
       <v-row justify="center">
