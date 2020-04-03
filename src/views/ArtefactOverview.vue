@@ -3,7 +3,7 @@
     <h1>Artefacts</h1>
 
     <v-row>
-      <v-col v-for="(artefact, i) in this.$store.state.artefacts.all" :key="i" cols="3">
+      <v-col v-for="(artefact, i) in this.$store.state.artefacts.all" :key="i" cols="3" class="items-column">
         <v-hover v-slot:default="{ hover }">
           <v-card v-on:click="detailView(artefact)" :elevation="hover ? 12 : 2" :class="{ 'on-hover': hover }" class="artefact-overview--card">
             <v-card-title>{{ artefact.name }}</v-card-title>
@@ -47,5 +47,13 @@ export default {
 <style>
 .v-card.artefact-overview--card:hover {
   cursor: pointer;
+}
+
+.v-card.artefact-overview--card {
+  height: 100%;
+}
+
+.v-col.items-column {
+  align-items: stretch;
 }
 </style>
