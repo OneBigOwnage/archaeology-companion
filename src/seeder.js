@@ -1,6 +1,7 @@
 import Material from '@/models/material';
 import Artefact from '@/models/artefact';
 import DigSite from '@/models/digsite';
+import Excavation from '@/models/excavation';
 import { sluggify } from '@/helpers';
 import faker from 'faker';
 
@@ -13,6 +14,7 @@ export default class Seeder {
         this.seedMaterials();
         this.seedArtefacts();
         this.seedDigSites();
+        this.seedExcavations();
     }
 
     seedMaterials() {
@@ -45,6 +47,16 @@ export default class Seeder {
             const site = new DigSite(faker.random.word(), faker.random.number({ min: 1, max: 80 }));
 
             this.$store.dispatch('digSites/add', site);
+        }
+    }
+
+    seedExcavations() {
+        this.$store.dispatch('excavations/reset');
+
+        for (let i = 0; i < 10; i++) {
+            const excavation = new Excavation(faker.random.word(), faker.random.number({ min: 1, max: 120 }), sluggify(faker.random.words(3)));
+
+            this.$store.dispatch('excavations/add', excavation);
         }
     }
 }
