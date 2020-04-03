@@ -1,6 +1,10 @@
 import Vue from 'vue'
 import Vuex from 'vuex'
 import materials from '@/store/materials';
+import artefacts from '@/store/artefacts';
+import excavations from '@/store/excavations';
+import digSites from '@/store/dig-sites';
+import collections from '@/store/collections';
 import VuexClassPersistence from 'vuex-class-persist';
 import classes from '@/store/classes';
 
@@ -11,6 +15,10 @@ const persistence = new VuexClassPersistence({ storage: window.localStorage }, c
 export default new Vuex.Store({
   modules: {
     materials,
+    artefacts,
+    excavations,
+    digSites,
+    collections,
   },
   plugins: [persistence]
 });
