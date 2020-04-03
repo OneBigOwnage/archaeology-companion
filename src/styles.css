@@ -1,0 +1,11 @@
+.v-card.overview-card:hover {
+    cursor: pointer;
+}
+
+.v-card.overview-card {
+    height: 100%;
+}
+
+.v-col.overview-column {
+    align-items: stretch;
+}
