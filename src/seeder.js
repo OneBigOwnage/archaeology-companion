@@ -1,5 +1,6 @@
 import Material from '@/models/material';
 import Artefact from '@/models/artefact';
+import DigSite from '@/models/digsite';
 import { sluggify } from '@/helpers';
 import faker from 'faker';
 
@@ -11,6 +12,7 @@ export default class Seeder {
     seed() {
         this.seedMaterials();
         this.seedArtefacts();
+        this.seedDigSites();
     }
 
     seedMaterials() {
@@ -33,6 +35,16 @@ export default class Seeder {
             );
 
             this.$store.dispatch('artefacts/add', artefact);
+        }
+    }
+
+    seedDigSites() {
+        this.$store.dispatch('digSites/reset');
+
+        for (let i = 0; i < 5; i++) {
+            const site = new DigSite(faker.random.word());
+
+            this.$store.dispatch('digSites/add', site);
         }
     }
 }
