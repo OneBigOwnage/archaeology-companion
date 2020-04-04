@@ -1,6 +1,7 @@
 import { sluggify } from '@/helpers';
+import Model from '@/models/model';
 
-export default class Excavation {
+export default class Excavation extends Model {
     constructor(ID, name, level, digSiteSlug,) {
         this.ID = ID;
         this.name = name;

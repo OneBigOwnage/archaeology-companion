@@ -1,6 +1,7 @@
 import { sluggify } from '@/helpers';
+import Model from '@/models/model';
 
-export default class Collection {
+export default class Collection extends Model {
     constructor(ID, name, NPCName, rewards) {
         this.ID = ID;
         this.name = name;

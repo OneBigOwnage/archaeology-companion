@@ -1,6 +1,7 @@
 import { sluggify } from '@/helpers';
+import Model from '@/models/model';
 
-export default class Artefact {
+export default class Artefact extends Model {
     constructor(ID, name, xp, chronotes, excavationSlug) {
         this.ID = ID;
         this.name = name;
