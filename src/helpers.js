@@ -1,1 +1,1 @@
-export const sluggify = string => string.toLowerCase().replace(' ', '-');
+export const sluggify = string => string.toLowerCase().split(' ').join('-');
