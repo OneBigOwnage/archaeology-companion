@@ -7,7 +7,7 @@
 
     <app-loader v-if="!excavation"></app-loader>
 
-    <v-container>
+    <v-container v-else>
       <v-row justify="center">
         <v-col xs="12" lg="6">
           <v-card>
@@ -20,9 +20,26 @@
         </v-col>
       </v-row>
 
-      <v-row>
-        <v-col>
-
+      <v-row justify="center">
+        <v-col xs="12" lg="3">
+          <v-card>
+            <v-card-title>Materials</v-card-title>
+            <v-card-text>
+              <div v-for="material in materials" :key="material">
+                {{ material }}
+              </div>
+            </v-card-text>
+          </v-card>
+        </v-col>
+        <v-col xs="12" lg="3">
+          <v-card>
+            <v-card-title>Artefacts</v-card-title>
+            <v-card-text>
+              <div v-for="artefact in artefacts" :key="artefact">
+                {{ artefact }}
+              </div>
+            </v-card-text>
+          </v-card>
         </v-col>
       </v-row>
     </v-container>
@@ -46,6 +63,22 @@ export default {
 
       this.excavation = this.$store.getters['excavations/bySlug'](slug);
     }
+  },
+  computed: {
+    materials() {
+      if (!this.excavation) {
+        return [];
+      }
+
+      return ['Chaotic brimstone', 'Hellfire metal'];
+    },
+    artefacts() {
+      if (!this.excavation) {
+        return [];
+      }
+
+      return ['Legatus Maximus figurine', 'Rod of Asclepius'];
+    },
   }
 }
 </script>
