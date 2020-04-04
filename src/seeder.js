@@ -76,7 +76,7 @@ export default class Seeder {
 
         for (let i = 0; i <10; i++) {
             const collection = new Collection(
-                faker.random.word() + faker.random.arrayElement(suffixes),
+                [ faker.random.word(), faker.random.arrayElement(suffixes) ].join(' '),
                 faker.name.findName()
             );
 
