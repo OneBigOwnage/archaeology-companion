@@ -5,6 +5,7 @@ import artefacts from '@/store/artefacts';
 import excavations from '@/store/excavations';
 import digSites from '@/store/dig-sites';
 import collections from '@/store/collections';
+import relations from '@/store/relations';
 import VuexClassPersistence from 'vuex-class-persist';
 import classes from '@/store/classes';
 
@@ -19,6 +20,7 @@ export default new Vuex.Store({
     excavations,
     digSites,
     collections,
+    relations,
   },
   plugins: [persistence]
 });
