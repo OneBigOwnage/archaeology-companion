@@ -1,7 +1,8 @@
 import { sluggify } from '@/helpers';
 
 export default class Excavation {
-    constructor(name, level, digSiteSlug,) {
+    constructor(ID, name, level, digSiteSlug,) {
+        this.ID = ID;
         this.name = name;
         this.level = level;
         this.digSiteSlug = digSiteSlug;

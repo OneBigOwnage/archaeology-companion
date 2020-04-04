@@ -1,7 +1,8 @@
 import { sluggify } from '@/helpers';
 
 export default class Material {
-    constructor(name, level) {
+    constructor(ID, name, level) {
+        this.ID = ID;
         this.name = name;
         this.level = level;
     }

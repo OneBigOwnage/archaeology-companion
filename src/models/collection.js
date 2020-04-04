@@ -1,7 +1,8 @@
 import { sluggify } from '@/helpers';
 
 export default class Collection {
-    constructor(name, NPCName, rewards) {
+    constructor(ID, name, NPCName, rewards) {
+        this.ID = ID;
         this.name = name;
         this.NPCName = NPCName;
         this.rewards = rewards;

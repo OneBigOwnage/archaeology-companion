@@ -5,6 +5,7 @@ import Excavation from '@/models/excavation';
 import Collection from '@/models/collection';
 import { sluggify } from '@/helpers';
 import faker from 'faker';
+import { v4 as uuidv4 } from 'uuid';
 
 export default class Seeder {
     constructor(store) {
@@ -23,7 +24,11 @@ export default class Seeder {
         this.$store.dispatch('materials/reset');
 
         for (let i = 0; i < 10; i++) {
-            this.$store.dispatch('materials/add', new Material(faker.random.word(), faker.random.number({min:1, max:120})));
+            this.$store.dispatch('materials/add', new Material(
+                uuidv4(),
+                faker.random.word(),
+                faker.random.number({ min: 1, max: 120 }))
+            );
         }
     }
 
@@ -32,6 +37,7 @@ export default class Seeder {
 
         for (let i = 0; i < 10; i++) {
             const artefact = new Artefact(
+                uuidv4(),
                 faker.random.word(),
                 faker.random.number({ min: 600, max: 20000 }),
                 faker.random.number({ min: 100, max: 1000 }),
@@ -47,6 +53,7 @@ export default class Seeder {
 
         for (let i = 0; i < 5; i++) {
             const site = new DigSite(
+                uuidv4(),
                 faker.random.word(),
                 faker.random.number({ min: 1, max: 80 })
             );
@@ -60,6 +67,7 @@ export default class Seeder {
 
         for (let i = 0; i < 10; i++) {
             const excavation = new Excavation(
+                uuidv4(),
                 faker.random.word(),
                 faker.random.number({ min: 1, max: 120 }),
                 sluggify(faker.random.words(3))
@@ -76,6 +84,7 @@ export default class Seeder {
 
         for (let i = 0; i <10; i++) {
             const collection = new Collection(
+                uuidv4(),
                 [ faker.random.word(), faker.random.arrayElement(suffixes) ].join(' '),
                 faker.name.findName(),
                 faker.random.number({min: 50, max: 1000}) + ' chronotes'
