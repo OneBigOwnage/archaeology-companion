@@ -20,7 +20,7 @@
                 Rewards: {{ collection.rewards }}
               </div>
               <div>
-                Total chronotes for completing this collection: 652
+                Total chronotes for completion: 652
               </div>
             </v-card-text>
           </v-card>
