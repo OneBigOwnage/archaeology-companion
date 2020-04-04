@@ -8,7 +8,7 @@
           <v-card v-on:click="detailView(excavation)" :elevation="hover ? 12 : 2" :class="{ 'on-hover': hover }" class="overview-card">
             <v-card-title>{{ excavation.name }}</v-card-title>
             <v-card-text>
-              Level {{ excavation.level }}
+              Level: {{ excavation.level }}
             </v-card-text>
           </v-card>
         </v-hover>
