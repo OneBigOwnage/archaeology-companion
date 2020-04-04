@@ -20,6 +20,11 @@
 <script>
 export default {
   name: 'ExcavationOverview',
+  methods: {
+    detailView(excavation) {
+      this.$router.push({name: 'excavation-details', params: { slug: excavation.slug() }});
+    }
+  }
 }
 </script>
 

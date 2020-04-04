@@ -8,6 +8,7 @@ import CollectionOverview from '@/views/CollectionOverview';
 import MaterialDetails from '@/views/MaterialDetails';
 import ArtefactDetails from '@/views/ArtefactDetails';
 import DigSiteDetails from '@/views/DigSiteDetails';
+import ExcavationDetails from '@/views/ExcavationDetails';
 
 Vue.use(VueRouter)
 
@@ -20,7 +21,7 @@ const routes = [
     { path: '/dig-sites'         , component: DigSiteOverview    , name: 'dig-site-overview'   },
     { path: '/dig-sites/:slug'   , component: DigSiteDetails     , name: 'dig-site-details'    },
     { path: '/excavations'       , component: ExcavationOverview , name: 'excavation-overview' },
-    { path: '/excavations/:slug' , component: ExcavationOverview , name: 'excavation-details'  },
+    { path: '/excavations/:slug' , component: ExcavationDetails  , name: 'excavation-details'  },
     { path: '/collections'       , component: CollectionOverview , name: 'collection-overview' },
     { path: '/collections/:slug' , component: CollectionOverview , name: 'collection-details'  },
 ];
