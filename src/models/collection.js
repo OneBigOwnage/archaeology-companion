@@ -3,6 +3,7 @@ import Model from '@/models/model';
 
 export default class Collection extends Model {
     constructor(ID, name, NPCName, rewards) {
+        super();
         this.ID = ID;
         this.name = name;
         this.NPCName = NPCName;

@@ -3,6 +3,7 @@ import Model from '@/models/model';
 
 export default class Artefact extends Model {
     constructor(ID, name, xp, chronotes, excavationSlug) {
+        super();
         this.ID = ID;
         this.name = name;
         this.xp = xp;
