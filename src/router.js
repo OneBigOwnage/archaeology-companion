@@ -9,6 +9,7 @@ import MaterialDetails from '@/views/MaterialDetails';
 import ArtefactDetails from '@/views/ArtefactDetails';
 import DigSiteDetails from '@/views/DigSiteDetails';
 import ExcavationDetails from '@/views/ExcavationDetails';
+import CollectionDetails from '@/views/CollectionDetails';
 
 Vue.use(VueRouter)
 
@@ -23,7 +24,7 @@ const routes = [
     { path: '/excavations'       , component: ExcavationOverview , name: 'excavation-overview' },
     { path: '/excavations/:slug' , component: ExcavationDetails  , name: 'excavation-details'  },
     { path: '/collections'       , component: CollectionOverview , name: 'collection-overview' },
-    { path: '/collections/:slug' , component: CollectionOverview , name: 'collection-details'  },
+    { path: '/collections/:slug' , component: CollectionDetails  , name: 'collection-details'  },
 ];
 
 export default new VueRouter({ mode: 'history', routes });
