@@ -73,7 +73,7 @@ export default {
 
         if (entity instanceof Artefact) {
             const collectionIDs = state.artefacts_collections
-                .filter(relation => firstID === artefact.ID)
+                .filter(relation => relation.firstID === entity.ID)
                 .map(relation => relation.secondID);
 
             return rootState.collections.all.filter(collection => collectionIDs.includes(collection.ID));
