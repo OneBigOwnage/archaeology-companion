@@ -3,9 +3,10 @@ import Artefact from '@/models/artefact';
 import DigSite from '@/models/digsite';
 import Excavation from '@/models/excavation';
 import Collection from '@/models/collection';
-import { sluggify } from '@/helpers';
+import { sluggify, ignoreErrors, shuffleArray } from '@/helpers';
 import faker from 'faker';
 import { v4 as uuidv4 } from 'uuid';
+
 
 export default class Seeder {
     constructor(store) {
@@ -117,46 +118,44 @@ export default class Seeder {
     seedRelations() {
         this.$store.dispatch('relations/reset');
 
-        const shuffle = () => Math.random(); - 0.5;
-
         // Link artefacts to materials.
         for (let i = 0; i < 10; i++) {
-            this.artefacts.sort(shuffle);
-            this.materials.sort(shuffle);
+            shuffleArray(this.artefacts);
+            shuffleArray(this.materials);
 
-            this.$store.dispatch('relations/attach', [ this.artefacts[0], this.materials[0] ]);
+            ignoreErrors( () => this.$store.dispatch('relations/attach', [ this.artefacts[0], this.materials[0] ]));
         }
 
         // Link artefacts to collections.
         for (let i = 0; i < 10; i++) {
-            this.artefacts.sort(shuffle);
-            this.collections.sort(shuffle);
+            shuffleArray(this.artefacts);
+            shuffleArray(this.collections);
 
-            this.$store.dispatch('relations/attach', [ this.artefacts[0], this.collections[0] ]);
+            ignoreErrors( () => this.$store.dispatch('relations/attach', [ this.artefacts[0], this.collections[0] ]));
         }
 
         // Link dig sites to excavations.
         for (let i = 0; i < 10; i++) {
-            this.digSites.sort(shuffle);
-            this.excavations.sort(shuffle);
+            shuffleArray(this.digSites);
+            shuffleArray(this.excavations);
 
-            this.$store.dispatch('relations/attach', [ this.digSites[0], this.excavations[0] ]);
+            ignoreErrors( () => this.$store.dispatch('relations/attach', [ this.digSites[0], this.excavations[0] ]));
         }
 
         // Link dig sites to materials.
         for (let i = 0; i < 10; i++) {
-            this.digSites.sort(shuffle);
-            this.materials.sort(shuffle);
+            shuffleArray(this.digSites);
+            shuffleArray(this.materials);
 
-            this.$store.dispatch('relations/attach', [ this.digSites[0], this.materials[0] ]);
+            ignoreErrors( () => this.$store.dispatch('relations/attach', [ this.digSites[0], this.materials[0] ]));
         }
 
         // Link excavations to materials.
         for (let i = 0; i < 10; i++) {
-            this.excavations.sort(shuffle);
-            this.materials.sort(shuffle);
+            shuffleArray(this.excavations);
+            shuffleArray(this.materials);
 
-            this.$store.dispatch('relations/attach', [ this.excavations[0], this.materials[0] ]);
+            ignoreErrors( () => this.$store.dispatch('relations/attach', [ this.excavations[0], this.materials[0] ]));
         }
     }
 }
