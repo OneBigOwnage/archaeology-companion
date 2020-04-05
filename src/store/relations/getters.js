@@ -1,12 +1,12 @@
-import NotAModelError from '@/store/relations/NotAModelError';
-import DigSite from '@/models/digsite';
+import NotAModelError from '@/store/relations/errors/NotAModelError';
+import NotRelatedError from '@/store/relations/errors/NotRelatedError';
+// import DigSite from '@/models/digsite';
 import Artefact from '@/models/artefact';
 import Material from '@/models/material';
 import Excavation from '@/models/excavation';
 // import Collection from '@/models/collection';
 import Model from '@/models/model';
 import { alphaSort, getStateKey } from '@/store/relations/helpers';
-import NotRelatedError from '@/store/relations/NotRelatedError';
 
 export default {
     isAttached: state => args => {

@@ -1,7 +1,7 @@
-import AlreadyAttachedError from '@/store/relations/AlreadyAttachedError';
-import NotAttachedError from '@/store/relations/NotAttachedError';
-import NotRelatedError from '@/store/relations/NotRelatedError';
-import NotAModelError from '@/store/relations/NotAModelError';
+import AlreadyAttachedError from '@/store/relations/errors/AlreadyAttachedError';
+import NotAttachedError from '@/store/relations/errors/NotAttachedError';
+import NotRelatedError from '@/store/relations/errors/NotRelatedError';
+import NotAModelError from '@/store/relations/errors/NotAModelError';
 import Model from '@/models/model';
 import { getStateKey, alphaSort } from '@/store/relations/helpers';
 
