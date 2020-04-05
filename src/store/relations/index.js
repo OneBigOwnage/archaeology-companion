@@ -1,4 +1,6 @@
 import NotAModelError from '@/store/relations/NotAModelError';
+import AlreadyAttachedError from '@/store/relations/AlreadyAttachedError';
+import NotAttachedError from '@/store/relations/NotAttachedError';
 import Model from '@/models/model';
 import Relation from '@/models/relation';
 import { toCamelCase } from '@/helpers';
@@ -17,7 +19,6 @@ const throwErrorIfNotModel = args => {
   const [first, second] = args;
 
   if (!(first instanceof Model) || !(second instanceof Model)) {
-    console.error(first, second);
     throw new NotAModelError();
   }
 };
@@ -45,7 +46,13 @@ const initial = () => {
 };
 
 const getters = {
+  isAttached: state => args => {
+    throwErrorIfNotModel(args);
 
+    args.sort(alphabeticalSort);
+
+    return state[getStateKey(args)].filter(relation => relation.firstID === args[0].ID && relation.secondID === args[1].ID).length > 0;
+  },
 };
 
 const mutations = {
@@ -66,7 +73,7 @@ const mutations = {
 };
 
 const actions = {
-  attach({ commit, state }, args) {
+  attach({ commit, state, getters }, args) {
     throwErrorIfNotModel(args);
 
     const key = getStateKey(args);
@@ -77,6 +84,10 @@ const actions = {
 
     args.sort(alphabeticalSort);
 
+    if (getters['isAttached'](args)) {
+      throw new AlreadyAttachedError();
+    }
+
     commit('attach', { key, first: args[0], second: args[1]});
   },
   detach({ commit, state }, args) {
@@ -86,6 +97,12 @@ const actions = {
 
     if (!Object.prototype.hasOwnProperty.call(state, key)) {
       console.error(`[${key}] is not a valid state key.`);
+    }
+
+    args.sort(alphabeticalSort);
+
+    if (!getters['isAttached'](args)) {
+      throw new NotAttachedError();
     }
 
     commit('detach', { key, first: args[0], second: args[1]});
