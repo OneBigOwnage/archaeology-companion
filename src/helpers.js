@@ -11,3 +11,28 @@ export const toCamelCase = string => {
 
   return string.replace(/(?:^\w|[A-Z]|\b\w)/g, casingFunction).replace(/\s+/g, '')
 };
+
+
+export const ignoreErrors = fun => {
+  try {
+    return fun();
+  } catch (error) {
+    console.error(error);
+    return null;
+  }
+}
+
+/**
+ * This is full of magic!
+ * Source: https://stackoverflow.com/a/6274398
+ *
+ * @param {Array} array
+ */
+export const shuffleArray = array => {
+  for (let i = array.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [array[i], array[j]] = [array[j], array[i]];
+  }
+
+  return array;
+};
