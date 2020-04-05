@@ -1,7 +1,7 @@
 import NotAModelError from '@/store/relations/errors/NotAModelError';
 import NotRelatedError from '@/store/relations/errors/NotRelatedError';
-import DigSite from '@/models/digsite';
 import Artefact from '@/models/artefact';
+import DigSite from '@/models/digsite';
 import Material from '@/models/material';
 import Excavation from '@/models/excavation';
 import Collection from '@/models/collection';
@@ -47,7 +47,7 @@ export default {
         if (entity instanceof Material) {
             const artefactIDs = state.artefacts_materials
                 .filter(relation => relation.secondID === entity.ID)
-                .map(relation => relation.secondID);
+                .map(relation => relation.firstID);
 
             return rootState.artefacts.all.filter(artefact => artefactIDs.includes(artefact.ID));
         } else if (entity instanceof Collection) {
@@ -57,11 +57,7 @@ export default {
 
             return rootState.artefacts.all.filter(artefact => artefactIDs.includes(artefact.ID));
         } else if (entity instanceof Excavation) {
-            const artefactIDs = state.artefacts_excavations
-                .filter(relation => relation.secondID === entity.ID)
-                .map(relation => relation.firstID);
-
-            return rootState.artefacts.all.filter(artefact => artefactIDs.includes(artefact.ID));
+            return rootState.artefacts.all.filter(artefact => artefact.excavationID === entity.ID);
         } else {
             throw new NotRelatedError(entity.constructor.name, Artefact.name);
         }
@@ -81,21 +77,6 @@ export default {
             throw new NotRelatedError(entity.constructor.name, Collection.name);
         }
     },
-    digSites: (state, getters, rootState) => entity => {
-        if (!(entity instanceof Model)) {
-            throw new NotAModelError(entity);
-        }
-
-        if (entity instanceof Excavation) {
-            const digSiteIDs = state.digSites_excavations
-                .filter(relation => relation.secondID === entity.ID)
-                .map(relation => relation.firstID);
-
-            return rootState.digSites.all.filter(digSite => digSiteIDs.includes(digSite.ID));
-        } else {
-            throw new NotRelatedError(entity.constructor.name, DigSite.name);
-        }
-    },
     excavations: (state, getters, rootState) => entity => {
         if (!(entity instanceof Model)) {
             throw new NotAModelError(entity);
@@ -107,20 +88,36 @@ export default {
                 .map(relation => relation.firstID);
 
             return rootState.excavations.all.filter(excavation => excavationIDs.includes(excavation.ID));
-        } else if (entity instanceof Artefact) {
-            const excavationIDs = state.artefacts_excavations
-                .filter(relation => relation.secondID === entity.ID)
-                .map(relation => relation.firstID);
-
-            return rootState.excavations.all.filter(excavation => excavationIDs.includes(excavation.ID));
         } else if (entity instanceof DigSite) {
-            const excavationIDs = state.digSites_excavations
-                .filter(relation => relation.firstID === entity.ID)
-                .map(relation => relation.secondID);
-
-            return rootState.excavations.all.filter(excavation => excavationIDs.includes(excavation.ID));
+            return rootState.excavations.all.filter(excavation => excavation.digSiteID === entity.ID);
         } else {
             throw new NotRelatedError(entity.constructor.name, Excavation.name);
         }
+    },
+    excavation: (state, getters, rootState) => artefact => {
+        if (!(artefact instanceof Artefact)) {
+            throw new NotRelatedError(artefact.constructor.name, Excavation.name);
+        }
+
+        const potential = rootState.excavations.all.filter(excavation => artefact.excavationID === excavation.ID);
+
+        if (potential.length <= 0) {
+            return null;
+        }
+
+        return potential[0];
+    },
+    digSite: (state, getters, rootState) => excavation => {
+        if (!(excavation instanceof Artefact)) {
+            throw new NotRelatedError(excavation.constructor.name, DigSite.name);
+        }
+
+        const potential = rootState.digSites.all.filter(digSite => excavation.digSiteID === digSite.ID);
+
+        if (potential.length <= 0) {
+            return null;
+        }
+
+        return potential[0];
     },
 };

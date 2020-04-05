@@ -2,12 +2,12 @@ import { sluggify } from '@/helpers';
 import Model from '@/models/model';
 
 export default class Excavation extends Model {
-    constructor(ID, name, level, digSiteSlug, ) {
+    constructor(ID, name, level, digSiteID, ) {
         super();
         this.ID = ID;
         this.name = name;
         this.level = level;
-        this.digSiteSlug = digSiteSlug;
+        this.digSiteID = digSiteID;
     }
 
     slug() {

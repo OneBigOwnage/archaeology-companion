@@ -6,8 +6,6 @@ export const initial = () => {
   return {
     artefacts_materials: [],
     artefacts_collections: [],
-    artefacts_excavations: [],
-    digSites_excavations: [],
     excavations_materials: [],
   };
 };
