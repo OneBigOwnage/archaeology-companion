@@ -119,7 +119,7 @@ export default class Seeder {
         this.$store.dispatch('relations/reset');
 
         // Link artefacts to materials.
-        for (let i = 0; i < 10; i++) {
+        for (let i = 0; i < 50; i++) {
             shuffleArray(this.artefacts);
             shuffleArray(this.materials);
 
@@ -127,23 +127,15 @@ export default class Seeder {
         }
 
         // Link artefacts to collections.
-        for (let i = 0; i < 10; i++) {
+        for (let i = 0; i < 50; i++) {
             shuffleArray(this.artefacts);
             shuffleArray(this.collections);
 
             ignoreErrors( () => this.$store.dispatch('relations/attach', [ this.artefacts[0], this.collections[0] ]));
         }
 
-        // Link dig sites to excavations.
-        for (let i = 0; i < 10; i++) {
-            shuffleArray(this.digSites);
-            shuffleArray(this.excavations);
-
-            ignoreErrors( () => this.$store.dispatch('relations/attach', [ this.digSites[0], this.excavations[0] ]));
-        }
-
         // Link dig sites to materials.
-        for (let i = 0; i < 10; i++) {
+        for (let i = 0; i < 50; i++) {
             shuffleArray(this.digSites);
             shuffleArray(this.materials);
 
@@ -151,11 +143,33 @@ export default class Seeder {
         }
 
         // Link excavations to materials.
-        for (let i = 0; i < 10; i++) {
+        for (let i = 0; i < 50; i++) {
             shuffleArray(this.excavations);
             shuffleArray(this.materials);
 
             ignoreErrors( () => this.$store.dispatch('relations/attach', [ this.excavations[0], this.materials[0] ]));
+        }
+
+        // Link artefacts to excavations.
+        for (let i = 0; i < this.artefacts.length; i++) {
+            const artefact = this.artefact[i];
+
+            shuffleArray(this.excavations);
+            const excavation = this.excavations[0];
+
+            artefact.excavationID = excavation.ID;
+            this.$store.dispatch('artefacts/update', artefact);
+        }
+
+        // Link excavations to dig sites.
+        for (let i = 0; i < this.excavations.length; i++) {
+            const excavation = this.excavations[i];
+
+            shuffleArray(this.digSites);
+            const digSite = this.digSites[0];
+
+            excavation.digSiteID = digSite.ID;
+            this.$store.dispatch('excavations/update', excavation);
         }
     }
 }
