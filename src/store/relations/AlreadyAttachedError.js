@@ -1,5 +1,5 @@
 export default class AlreadyAttachedError extends Error {
-    constructor() {
-        super('The given models are already attached.');
+    constructor(first, second) {
+        super(`[${first.constructor.name + first.slug()}] and [${second.constructor.name + second.slug()}] are already attached.`);
     }
 }
