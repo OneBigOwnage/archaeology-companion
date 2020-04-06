@@ -134,14 +134,6 @@ export default class Seeder {
             ignoreErrors( () => this.$store.dispatch('relations/attach', [ this.artefacts[0], this.collections[0] ]));
         }
 
-        // Link dig sites to materials.
-        for (let i = 0; i < 50; i++) {
-            shuffleArray(this.digSites);
-            shuffleArray(this.materials);
-
-            ignoreErrors( () => this.$store.dispatch('relations/attach', [ this.digSites[0], this.materials[0] ]));
-        }
-
         // Link excavations to materials.
         for (let i = 0; i < 50; i++) {
             shuffleArray(this.excavations);
@@ -152,7 +144,7 @@ export default class Seeder {
 
         // Link artefacts to excavations.
         for (let i = 0; i < this.artefacts.length; i++) {
-            const artefact = this.artefact[i];
+            const artefact = this.artefacts[i];
 
             shuffleArray(this.excavations);
             const excavation = this.excavations[0];
