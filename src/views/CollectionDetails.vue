@@ -32,8 +32,8 @@
           <v-card>
             <v-card-title>Artefacts</v-card-title>
             <v-card-text>
-              <div v-for="artefact in artefacts" :key="artefact">
-                {{ artefact }}
+              <div v-for="artefact in artefacts" :key="artefact.ID">
+                {{ artefact.name }}
               </div>
             </v-card-text>
           </v-card>
@@ -66,7 +66,7 @@ export default {
         return [];
       }
 
-      return ['Legatus Maximus figurine (210 chronotes)', 'Rod of Asclepius (179 chronotes)'];
+      return this.$store.getters['relations/artefacts'](this.collection);
     }
   }
 }

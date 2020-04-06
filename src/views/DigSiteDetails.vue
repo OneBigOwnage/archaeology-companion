@@ -25,8 +25,8 @@
           <v-card outlined>
             <v-card-title>Excavations</v-card-title>
             <v-card-text>
-              <div v-for="(excavation, i) in excavations" :key="i">
-                {{ excavation }}
+              <div v-for="excavation in excavations" :key="excavation.ID">
+                {{ excavation.name }}
               </div>
             </v-card-text>
           </v-card>
@@ -60,7 +60,7 @@ export default {
         return [];
       }
 
-      return ['Remains', 'Sacrificial altar'];
+      return this.$store.getters['relations/excavations'](this.digSite);
     },
   }
 }

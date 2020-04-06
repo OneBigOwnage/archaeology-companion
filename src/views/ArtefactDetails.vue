@@ -31,8 +31,8 @@
           <v-card>
             <v-card-title>Materials</v-card-title>
             <v-card-text>
-              <div v-for="material in materials" :key="material">
-                {{ material }}
+              <div v-for="material in materials" :key="material.ID">
+                {{ material.name }}
               </div>
             </v-card-text>
           </v-card>
@@ -41,7 +41,7 @@
           <v-card>
             <v-card-title>Excavation</v-card-title>
             <v-card-text>
-              {{ excavation }}
+              {{ excavation.name }}
             </v-card-text>
           </v-card>
         </v-col>
@@ -49,8 +49,8 @@
           <v-card>
             <v-card-title>Collections</v-card-title>
             <v-card-text>
-              <div v-for="collection in collections" :key="collection">
-                {{ collection }}
+              <div v-for="collection in collections" :key="collection.ID">
+                {{ collection.name }}
               </div>
             </v-card-text>
           </v-card>
@@ -84,21 +84,21 @@ export default {
         return [];
       }
 
-      return ['Chaotic brimstone', 'Hellfire metal'];
+      return this.$store.getters['relations/materials'](this.artefact);
     },
     collections() {
       if (!this.artefact) {
         return [];
       }
 
-      return ['Saradomin II', 'Saradomin III'];
+      return this.$store.getters['relations/collections'](this.artefact);
     },
     excavation() {
       if (!this.artefact) {
         return [];
       }
 
-      return 'Remains (Everlight)';
+      return this.$store.getters['relations/excavation'](this.artefact);
     },
   }
 }

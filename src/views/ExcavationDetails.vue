@@ -1,8 +1,7 @@
 <template>
   <v-container>
-    <v-btn outlined color="amber accent-4" to="/artefacts">
-      <v-icon left>mdi-chevron-left</v-icon>
-      To overview
+    <v-btn outlined color="amber accent-4" to="/excavations">
+      <v-icon left>mdi-chevron-left</v-icon>To overview
     </v-btn>
 
     <app-loader v-if="!excavation"></app-loader>
@@ -14,7 +13,7 @@
             <v-card-title>{{ excavation.name }}</v-card-title>
             <v-card-text>
               <span class="font-weight-medium">Dig site:</span>
-              {{ excavation.digSiteSlug }}
+              {{ digSite.name }}
             </v-card-text>
           </v-card>
         </v-col>
@@ -25,8 +24,8 @@
           <v-card>
             <v-card-title>Materials</v-card-title>
             <v-card-text>
-              <div v-for="material in materials" :key="material">
-                {{ material }}
+              <div v-for="material in materials" :key="material.ID">
+                {{ material.name }}
               </div>
             </v-card-text>
           </v-card>
@@ -35,15 +34,14 @@
           <v-card>
             <v-card-title>Artefacts</v-card-title>
             <v-card-text>
-              <div v-for="artefact in artefacts" :key="artefact">
-                {{ artefact }}
+              <div v-for="artefact in artefacts" :key="artefact.ID">
+                {{ artefact.name }}
               </div>
             </v-card-text>
           </v-card>
         </v-col>
       </v-row>
     </v-container>
-
   </v-container>
 </template>
 
@@ -70,19 +68,25 @@ export default {
         return [];
       }
 
-      return ['Chaotic brimstone', 'Hellfire metal'];
+      return this.$store.getters['relations/materials'](this.excavation);
     },
     artefacts() {
       if (!this.excavation) {
         return [];
       }
 
-      return ['Legatus Maximus figurine', 'Rod of Asclepius'];
+      return this.$store.getters['relations/artefacts'](this.excavation);
     },
+    digSite() {
+      if (!this.excavation) {
+        return { };
+      }
+
+      return this.$store.getters['relations/digSite'](this.excavation);
+    }
   }
 }
 </script>
 
 <style>
-
 </style>

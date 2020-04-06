@@ -25,8 +25,8 @@
           <v-card outlined>
             <v-card-title>Artefacts</v-card-title>
             <v-card-text>
-              <div v-for="artefact in artefacts" :key="artefact">
-                {{ artefact }}
+              <div v-for="artefact in artefacts" :key="artefact.ID">
+                {{ artefact.name }}
               </div>
             </v-card-text>
           </v-card>
@@ -35,8 +35,8 @@
           <v-card outlined>
             <v-card-title>Excavations</v-card-title>
             <v-card-text>
-              <div v-for="excavation in excavations" :key="excavation">
-                {{ excavation }}
+              <div v-for="excavation in excavations" :key="excavation.ID">
+                {{ excavation.name }}
               </div>
             </v-card-text>
           </v-card>
@@ -70,14 +70,14 @@ export default {
         return [];
       }
 
-      return ['Legatus Maximus figurine (21x)', 'Rod of Asclepius (4x)'];
+      return this.$store.getters['relations/artefacts'](this.material);
     },
     excavations() {
       if (!this.material) {
         return [];
       }
 
-      return ['Remains (Everlight)', 'Sacrificial altar (Infernal Source)'];
+      return this.$store.getters['relations/excavations'](this.material);
     }
   }
 }
