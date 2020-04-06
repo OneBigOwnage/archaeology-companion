@@ -114,7 +114,7 @@ export default {
         return potential[0];
     },
     digSite: (state, getters, rootState) => excavation => {
-        if (!(excavation instanceof Artefact)) {
+        if (!(excavation instanceof Excavation)) {
             throw new NotRelatedError(excavation.constructor.name, DigSite.name);
         }
 
