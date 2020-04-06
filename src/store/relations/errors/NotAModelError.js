@@ -1,5 +1,5 @@
 export default class NotAModelError extends Error {
     constructor(obj) {
-        super(`[${obj}] is not a Model instance.`);
+        super(`[${obj.constructor.name}] is not a Model instance.`);
     }
 }
