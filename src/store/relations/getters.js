@@ -14,7 +14,13 @@ export default {
 
         args.sort(alphaSort);
 
-        return state[getStateKey(args)]
+        const key = getStateKey(args);
+
+        if (!Object.prototype.hasOwnProperty.call(state, key)) {
+            throw new NotRelatedError(first, second);
+        }
+
+        return state[key]
             .filter(relation => relation.firstID === first.ID && relation.secondID === second.ID)
             .length > 0;
     },
