@@ -1,7 +1,7 @@
 <template>
   <v-container>
 
-    <v-btn outlined to="/materials">
+    <v-btn outlined color="amber accent-4" to="/materials">
       <v-icon left>mdi-chevron-left</v-icon>
       To overview
     </v-btn>
