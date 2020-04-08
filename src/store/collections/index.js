@@ -15,7 +15,7 @@ const mutations = {
         state.all.push(collection);
     },
     update(state, updatedCollection) {
-        const index = state.all.findIndex(collection => collection.name === updatedCollection.name);
+        const index = state.all.findIndex(collection => collection.ID === updatedCollection.ID);
         state.all[index] = updatedCollection;
     },
     reset(state) {

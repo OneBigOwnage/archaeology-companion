@@ -15,7 +15,7 @@ const mutations = {
         state.all.push(material)
     },
     update(state, updatedMaterial) {
-        const index = state.all.findIndex(material => material.name === updatedMaterial.name);
+        const index = state.all.findIndex(material => material.ID === updatedMaterial.ID);
         state.all[index] = updatedMaterial;
     },
     reset(state) {

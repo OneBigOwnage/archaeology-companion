@@ -15,7 +15,7 @@ const mutations = {
         state.all.push(digSite);
     },
     update(state, updatedDigSite) {
-        const index = state.all.findIndex(digSite => digSite.name === updatedDigSite.name);
+        const index = state.all.findIndex(digSite => digSite.ID === updatedDigSite.ID);
         state.all[index] = updatedDigSite;
     },
     reset(state) {

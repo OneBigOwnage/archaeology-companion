@@ -15,7 +15,7 @@ const mutations = {
         state.all.push(excavation);
     },
     update(state, updatedExcavation) {
-        const index = state.all.findIndex(excavation => excavation.name === updatedExcavation.name);
+        const index = state.all.findIndex(excavation => excavation.ID === updatedExcavation.ID);
         state.all[index] = updatedExcavation;
     },
     reset(state) {

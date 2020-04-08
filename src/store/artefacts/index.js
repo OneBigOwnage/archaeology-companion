@@ -15,7 +15,7 @@ const mutations = {
         state.all.push(artefact);
     },
     update(state, updatedArtefact) {
-        const index = state.all.findIndex(artefact => artefact.name === updatedArtefact.name);
+        const index = state.all.findIndex(artefact => artefact.ID === updatedArtefact.ID);
         state.all[index] = updatedArtefact;
     },
     reset(state) {
