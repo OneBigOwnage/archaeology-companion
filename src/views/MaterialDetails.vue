@@ -9,12 +9,20 @@
     <app-loader v-if="!material"></app-loader>
 
     <v-container v-else>
+      <app-edit-material-modal v-bind:material="material"></app-edit-material-modal>
+
       <v-row justify="center">
 
         <v-col xs="12" lg="6">
           <v-card outlined>
             <v-card-title>{{ material.name }}</v-card-title>
             <v-card-text>Level {{ material.level }}</v-card-text>
+            <v-card-actions>
+              <v-spacer></v-spacer>
+              <v-btn icon v-on:click="openEditModal()">
+                <v-icon color="amber">edit</v-icon>
+              </v-btn>
+            </v-card-actions>
           </v-card>
         </v-col>
 
@@ -48,6 +56,8 @@
 </template>
 
 <script>
+import EventBus from '@/eventbus';
+
 export default {
   data() {
     return {
@@ -62,7 +72,10 @@ export default {
       const slug = this.$route.params.slug;
 
       this.material = this.$store.getters['materials/bySlug'](slug);
-    }
+    },
+    openEditModal() {
+      EventBus.$emit('materials.dialogs.edit.open');
+    },
   },
   computed: {
     artefacts() {
