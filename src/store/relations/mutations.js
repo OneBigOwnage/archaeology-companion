@@ -9,10 +9,7 @@ export default {
         );
     },
     detach(state, transferObj) {
-        state[transferObj.key] = state[transferObj.key].filter(
-            relation => relation.firstID !== transferObj.first.ID
-                && relation.secondID !== transferObj.second.ID
-        );
+        state[transferObj.key] = state[transferObj.key].filter(relation => !(transferObj.first.ID === relation.firstID && transferObj.second.ID === relation.secondID));
     },
     reset(state) {
         Object.assign(state, initial());
