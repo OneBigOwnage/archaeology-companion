@@ -36,3 +36,8 @@ export const shuffleArray = array => {
 
   return array;
 };
+
+
+export const autocompleteMapper = model => {
+  return { text: model.name, value: model.ID };
+};
