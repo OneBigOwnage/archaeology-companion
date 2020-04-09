@@ -90,7 +90,6 @@ export default {
     return {
       artefactToUpdate: null,
       isOpen: false,
-      saving: false,
       form: {
         name: null,
         xp: null,
