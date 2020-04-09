@@ -8,11 +8,17 @@
     <app-loader v-if="!artefact"></app-loader>
 
     <v-container v-else>
+      <app-edit-artefact-modal v-bind:artefact="artefact"></app-edit-artefact-modal>
+
       <v-row justify="center">
         <v-col xs="12" lg="6">
           <v-card outlined v-if="artefact">
             <v-card-title>{{ artefact.name }}</v-card-title>
             <v-card-text>
+              <div>
+                <span class="font-weight-medium">Excavation:</span>
+                {{ excavation.name }}
+              </div>
               <div>
                 <span class="font-weight-medium">Experience:</span>
                 {{ artefact.formattedXP() }}
@@ -22,12 +28,18 @@
                 {{ artefact.chronotes }}
               </div>
             </v-card-text>
+            <v-card-actions>
+              <v-spacer></v-spacer>
+              <v-btn icon v-on:click="openEditModal()">
+                <v-icon color="amber">edit</v-icon>
+              </v-btn>
+            </v-card-actions>
           </v-card>
         </v-col>
       </v-row>
 
       <v-row justify="center">
-        <v-col xs="12" lg="2">
+        <v-col xs="12" lg="3">
           <v-card>
             <v-card-title>Materials</v-card-title>
             <v-card-text>
@@ -37,15 +49,7 @@
             </v-card-text>
           </v-card>
         </v-col>
-        <v-col xs="12" lg="2">
-          <v-card>
-            <v-card-title>Excavation</v-card-title>
-            <v-card-text>
-              {{ excavation.name }}
-            </v-card-text>
-          </v-card>
-        </v-col>
-        <v-col xs="12" lg="2">
+        <v-col xs="12" lg="3">
           <v-card>
             <v-card-title>Collections</v-card-title>
             <v-card-text>
@@ -62,6 +66,8 @@
 </template>
 
 <script>
+import EventBus from '@/eventbus';
+
 export default {
   data() {
     return {
@@ -76,7 +82,10 @@ export default {
       const slug = this.$route.params.slug;
 
       this.artefact = this.$store.getters['artefacts/bySlug'](slug);
-    }
+    },
+    openEditModal() {
+      EventBus.$emit('artefacts.dialogs.edit.open');
+    },
   },
   computed: {
     materials() {
