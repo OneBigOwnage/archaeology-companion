@@ -41,3 +41,8 @@ export const shuffleArray = array => {
 export const autocompleteMapper = model => {
   return { text: model.name, value: model.ID };
 };
+
+
+export const sortByProperty = property => (a, b) => a[property].localeCompare(b[property]);
+
+export const createFuzzyMatcher = string => new RegExp('.*' + string.toLowerCase().split('').join('.*') + '.*');
