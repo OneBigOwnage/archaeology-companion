@@ -7,14 +7,28 @@
     <app-loader v-if="!excavation"></app-loader>
 
     <v-container v-else>
+      <app-edit-excavation-modal :excavation="excavation"></app-edit-excavation-modal>
+
       <v-row justify="center">
         <v-col xs="12" lg="6">
           <v-card>
             <v-card-title>{{ excavation.name }}</v-card-title>
             <v-card-text>
-              <span class="font-weight-medium">Dig site:</span>
-              {{ digSite.name }}
+              <div>
+                <span class="font-weight-medium">Dig site:</span>
+                {{ digSite.name }}
+              </div>
+              <div>
+                <span class="font-weight-medium">Level:</span>
+                {{ digSite.level }}
+              </div>
             </v-card-text>
+            <v-card-actions>
+              <v-spacer></v-spacer>
+              <v-btn icon v-on:click="openEditModal()">
+                <v-icon color="amber">edit</v-icon>
+              </v-btn>
+            </v-card-actions>
           </v-card>
         </v-col>
       </v-row>
@@ -46,6 +60,8 @@
 </template>
 
 <script>
+import EventBus from '@/eventbus';
+
 export default {
   data() {
     return {
@@ -60,7 +76,10 @@ export default {
       const slug = this.$route.params.slug;
 
       this.excavation = this.$store.getters['excavations/bySlug'](slug);
-    }
+    },
+    openEditModal() {
+      EventBus.$emit('excavations.dialogs.edit.open');
+    },
   },
   computed: {
     materials() {
