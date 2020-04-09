@@ -2,17 +2,18 @@
   <v-app id="archaeology-companion">
     <v-app-bar app clipped-left color="amber">
       <v-app-bar-nav-icon @click="drawer = !drawer" />
+
       <span class="title ml-3 mr-5">
-        Archaeology&nbsp;
+        Archaeology
         <span class="font-weight-light">companion</span>
       </span>
-      <v-text-field solo-inverted flat hide-details label="Search..." prepend-inner-icon="search" />
+
+      <app-search-bar></app-search-bar>
 
       <v-spacer />
 
       <v-btn v-on:click="seed()">
-        <v-icon style="margin-right: .3rem">refresh</v-icon>
-        Re-seed
+        <v-icon style="margin-right: .3rem">refresh</v-icon>Re-seed
       </v-btn>
     </v-app-bar>
 
