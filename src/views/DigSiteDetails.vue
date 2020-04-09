@@ -8,6 +8,8 @@
     <app-loader v-if="!digSite"></app-loader>
 
     <v-container v-else>
+      <app-edit-dig-site-modal :digSite="digSite"></app-edit-dig-site-modal>
+
       <v-row justify="center">
         <v-col xs="12" lg="6">
           <v-card outlined>
@@ -16,6 +18,12 @@
               <span class="font-weight-medium">Level:</span>
               {{ digSite.level }}
             </v-card-text>
+            <v-card-actions>
+              <v-spacer></v-spacer>
+              <v-btn icon v-on:click="openEditModal()">
+                <v-icon color="amber">edit</v-icon>
+              </v-btn>
+            </v-card-actions>
           </v-card>
         </v-col>
       </v-row>
@@ -38,6 +46,8 @@
 </template>
 
 <script>
+import EventBus from '@/eventbus';
+
 export default {
   data() {
     return {
@@ -52,7 +62,10 @@ export default {
       const slug = this.$route.params.slug;
 
       this.digSite = this.$store.getters['digSites/bySlug'](slug);
-    }
+    },
+    openEditModal() {
+      EventBus.$emit('dig-sites.dialogs.edit.open');
+    },
   },
   computed: {
     excavations() {
