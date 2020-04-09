@@ -3,7 +3,7 @@
     <v-dialog v-model="isOpen" fullscreen hide-overlay transition="dialog-bottom-transition">
       <v-card tile>
         <v-toolbar dark tile color="amber">
-          <v-btn icon dark @click="isOpen = false">
+          <v-btn icon dark v-on:click="isOpen = false">
             <v-icon>mdi-close</v-icon>
           </v-btn>
           <v-toolbar-title>Edit material: {{ material.name }}</v-toolbar-title>
@@ -71,13 +71,7 @@
 <script>
 import Material from '@/models/material';
 import EventBus from '@/eventbus';
-
-const mapper = artefact => {
-  return {
-    text: artefact.name,
-    value: artefact.ID,
-  };
-};
+import { autocompleteMapper } from '@/helpers';
 
 export default {
   data() {
@@ -97,8 +91,8 @@ export default {
       this.form.name = this.material.name;
       this.form.level = this.material.level;
 
-      this.form.artefacts = this.$store.getters['relations/artefacts'](this.material).map(mapper);
-      this.form.excavations = this.$store.getters['relations/excavations'](this.material).map(mapper);
+      this.form.artefacts = this.$store.getters['relations/artefacts'](this.material).map(artefact => artefact.ID);
+      this.form.excavations = this.$store.getters['relations/excavations'](this.material).map(excavation => excavation.ID);
     },
     save() {
       const isNameDiff = this.material.name !== this.form.name;
@@ -159,10 +153,10 @@ export default {
   },
   computed: {
     artefacts() {
-      return this.$store.state.artefacts.all.map(mapper);
+      return this.$store.state.artefacts.all.map(autocompleteMapper);
     },
     excavations() {
-      return this.$store.state.excavations.all.map(mapper);
+      return this.$store.state.excavations.all.map(autocompleteMapper);
     }
   }
 }
