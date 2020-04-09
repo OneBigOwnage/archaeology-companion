@@ -5,7 +5,7 @@
       <v-content>
         <v-container fluid class="grey lighten-4 fill-height align-start">
 
-          <router-view></router-view>
+          <router-view :key="$route.name + JSON.stringify($route.params || {})"></router-view>
 
         </v-container>
       </v-content>
