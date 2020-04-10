@@ -12,9 +12,8 @@
 
       <v-spacer />
 
-      <v-btn v-on:click="seed()">
-        <v-icon style="margin-right: .3rem">refresh</v-icon>Re-seed
-      </v-btn>
+      <!-- <app-import-export></app-import-export>
+      <v-btn v-on:click="seed()">seed</v-btn>-->
     </v-app-bar>
 
     <v-navigation-drawer v-model="drawer" app clipped color="grey lighten-4">
