@@ -13,4 +13,8 @@ export default class Collection extends Model {
     slug() {
         return sluggify(this.name);
     }
+
+    route() {
+        return { name: 'collection-details', params: { slug: this.slug() } };
+    }
 }

@@ -13,4 +13,8 @@ export default class Excavation extends Model {
     slug() {
         return sluggify(this.name);
     }
+
+    route() {
+        return { name: 'excavation-details', params: { slug: this.slug() } };
+    }
 }

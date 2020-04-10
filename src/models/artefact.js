@@ -15,6 +15,10 @@ export default class Artefact extends Model {
         return sluggify(this.name);
     }
 
+    route() {
+        return { name: 'artefact-details', params: { slug: this.slug() } };
+    }
+
     formattedXP() {
         return this.xp.toString().replace(/(\d)(?=(\d{3})+(?!\d))/g, '$1.');
     }

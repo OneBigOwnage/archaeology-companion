@@ -12,4 +12,8 @@ export default class DigSite extends Model {
     slug() {
         return sluggify(this.name);
     }
+
+    route() {
+        return { name: 'dig-site-details', params: { slug: this.slug() } };
+    }
 }

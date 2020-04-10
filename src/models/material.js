@@ -12,4 +12,8 @@ export default class Material extends Model {
     slug() {
         return sluggify(this.name);
     }
+
+    route() {
+        return { name: 'material-details', params: { slug: this.slug() } };
+    }
 }
