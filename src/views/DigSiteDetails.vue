@@ -1,6 +1,5 @@
 <template>
   <v-container>
-
     <v-btn outlined color="amber accent-4" to="/dig-sites">
       <v-icon left>mdi-chevron-left</v-icon>To overview
     </v-btn>
@@ -13,17 +12,20 @@
       <v-row justify="center">
         <v-col xs="12" lg="6">
           <v-card outlined>
-            <v-card-title>{{ digSite.name }}</v-card-title>
-            <v-card-text>
-              <span class="font-weight-medium">Level:</span>
-              {{ digSite.level }}
-            </v-card-text>
-            <v-card-actions>
+            <v-toolbar dark flat color="amber darken-2">
+              <v-avatar size="36">
+                <v-icon>account_balance</v-icon>
+              </v-avatar>
+              <v-toolbar-title class="font-weight-medium">Dig site</v-toolbar-title>
               <v-spacer></v-spacer>
               <v-btn icon v-on:click="openEditDialog()">
-                <v-icon color="amber">edit</v-icon>
+                <v-icon>edit</v-icon>
               </v-btn>
-            </v-card-actions>
+            </v-toolbar>
+
+            <v-card-title>{{ digSite.name }}</v-card-title>
+
+            <app-card-table :items="table"></app-card-table>
           </v-card>
         </v-col>
       </v-row>
@@ -31,17 +33,25 @@
       <v-row justify="center">
         <v-col xs="12" lg="6">
           <v-card outlined>
-            <v-card-title>Excavations</v-card-title>
-            <v-card-text>
-              <div v-for="excavation in excavations" :key="excavation.ID">
-                {{ excavation.name }}
-              </div>
-            </v-card-text>
+            <v-toolbar dark flat dense color="amber lighten-1">
+              <v-toolbar-title>Excavations</v-toolbar-title>
+            </v-toolbar>
+            <v-list dense>
+              <v-list-item
+                v-for="excavation in excavations"
+                :key="excavation.ID"
+                v-on:click="$router.push(excavation.route())"
+              >
+                <v-list-item-content>
+                  <v-list-item-title>{{ excavation.name }}</v-list-item-title>
+                </v-list-item-content>
+                <v-list-item-action-text>Level: {{ excavation.level }}</v-list-item-action-text>
+              </v-list-item>
+            </v-list>
           </v-card>
         </v-col>
       </v-row>
     </v-container>
-
   </v-container>
 </template>
 
@@ -74,6 +84,11 @@ export default {
       }
 
       return this.$store.getters['relations/excavations'](this.digSite);
+    },
+    table() {
+      return [
+        { label: 'Level', text: this.digSite.level },
+      ];
     },
   }
 }

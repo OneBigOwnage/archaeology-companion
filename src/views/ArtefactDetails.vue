@@ -1,8 +1,7 @@
 <template>
   <v-container>
     <v-btn outlined color="amber accent-4" to="/artefacts">
-      <v-icon left>mdi-chevron-left</v-icon>
-      To overview
+      <v-icon left>mdi-chevron-left</v-icon>To overview
     </v-btn>
 
     <app-loader v-if="!artefact"></app-loader>
@@ -13,27 +12,20 @@
       <v-row justify="center">
         <v-col xs="12" lg="6">
           <v-card outlined v-if="artefact">
-            <v-card-title>{{ artefact.name }}</v-card-title>
-            <v-card-text>
-              <div>
-                <span class="font-weight-medium">Excavation:</span>
-                {{ excavation.name }}
-              </div>
-              <div>
-                <span class="font-weight-medium">Experience:</span>
-                {{ artefact.formattedXP() }}
-              </div>
-              <div>
-                <span class="font-weight-medium">Chronotes:</span>
-                {{ artefact.chronotes }}
-              </div>
-            </v-card-text>
-            <v-card-actions>
+            <v-toolbar dark flat color="amber darken-2">
+              <v-avatar size="36">
+                <v-icon>gradient</v-icon>
+              </v-avatar>
+              <v-toolbar-title class="font-weight-medium">Artefact</v-toolbar-title>
               <v-spacer></v-spacer>
               <v-btn icon v-on:click="openEditDialog()">
-                <v-icon color="amber">edit</v-icon>
+                <v-icon>edit</v-icon>
               </v-btn>
-            </v-card-actions>
+            </v-toolbar>
+
+            <v-card-title>{{ artefact.name }}</v-card-title>
+
+            <app-card-table :items="table"></app-card-table>
           </v-card>
         </v-col>
       </v-row>
@@ -41,27 +33,48 @@
       <v-row justify="center">
         <v-col xs="12" lg="3">
           <v-card>
-            <v-card-title>Materials</v-card-title>
-            <v-card-text>
-              <div v-for="material in materials" :key="material.ID">
-                {{ material.name }}
-              </div>
-            </v-card-text>
+            <v-toolbar dark flat dense color="amber lighten-1">
+              <v-toolbar-title>Materials</v-toolbar-title>
+            </v-toolbar>
+            <v-list dense>
+              <v-list-item
+                v-for="material in materials"
+                :key="material.ID"
+                v-on:click="$router.push(material.route())"
+              >
+                <v-list-item-content>
+                  <v-list-item-title>{{ material.name }}</v-list-item-title>
+                </v-list-item-content>
+                <v-list-item-action>
+                  <v-list-item-action-text v-text="'x' + material.level"></v-list-item-action-text>
+                </v-list-item-action>
+              </v-list-item>
+            </v-list>
           </v-card>
         </v-col>
         <v-col xs="12" lg="3">
           <v-card>
-            <v-card-title>Collections</v-card-title>
-            <v-card-text>
-              <div v-for="collection in collections" :key="collection.ID">
-                {{ collection.name }}
-              </div>
-            </v-card-text>
+            <v-toolbar dark flat dense color="amber lighten-1">
+              <v-toolbar-title>Collections</v-toolbar-title>
+            </v-toolbar>
+            <v-list dense>
+              <v-list-item
+                v-for="collection in collections"
+                :key="collection.ID"
+                v-on:click="$router.push(collection.route())"
+              >
+                <v-list-item-content>
+                  <v-list-item-title>{{ collection.name }}</v-list-item-title>
+                </v-list-item-content>
+                <v-list-item-action>
+                  <v-list-item-action-text>{{ collection.NPCName }}</v-list-item-action-text>
+                </v-list-item-action>
+              </v-list-item>
+            </v-list>
           </v-card>
         </v-col>
       </v-row>
     </v-container>
-
   </v-container>
 </template>
 
@@ -108,6 +121,13 @@ export default {
       }
 
       return this.$store.getters['relations/excavation'](this.artefact);
+    },
+    table() {
+      return [
+        { label: 'Excavation', text: this.excavation.name, link: this.$router.resolve(this.excavation.route()).href },
+        { label: 'Experience', text: this.artefact.formattedXP() },
+        { label: 'Chronotes', text: this.artefact.chronotes },
+      ];
     },
   }
 }
