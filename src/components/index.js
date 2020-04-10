@@ -1,17 +1,17 @@
 import Vue from 'vue';
 import loader from '@/components/DefaultLoader';
 import searchbar from '@/components/SearchBar';
-import EditMaterialModal from '@/components/EditMaterialModal';
-import EditArtefactModal from '@/components/EditArtefactModal';
-import EditCollectionModal from '@/components/EditCollectionModal';
-import EditDigSiteModal from '@/components/EditDigSiteModal';
-import EditExcavationModal from '@/components/EditExcavationModal';
+import EditMaterialDialog from '@/components/EditMaterialDialog';
+import EditArtefactDialog from '@/components/EditArtefactDialog';
+import EditCollectionDialog from '@/components/EditCollectionDialog';
+import EditDigSiteDialog from '@/components/EditDigSiteDialog';
+import EditExcavationDialog from '@/components/EditExcavationDialog';
 
 Vue.component('app-loader', loader);
 Vue.component('app-search-bar', searchbar);
 
-Vue.component('app-edit-material-modal', EditMaterialModal);
-Vue.component('app-edit-artefact-modal', EditArtefactModal);
-Vue.component('app-edit-collection-modal', EditCollectionModal);
-Vue.component('app-edit-dig-site-modal', EditDigSiteModal);
-Vue.component('app-edit-excavation-modal', EditExcavationModal);
+Vue.component('app-edit-material-dialog', EditMaterialDialog);
+Vue.component('app-edit-artefact-dialog', EditArtefactDialog);
+Vue.component('app-edit-collection-dialog', EditCollectionDialog);
+Vue.component('app-edit-dig-site-dialog', EditDigSiteDialog);
+Vue.component('app-edit-excavation-dialog', EditExcavationDialog);

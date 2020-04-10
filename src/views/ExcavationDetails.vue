@@ -7,7 +7,7 @@
     <app-loader v-if="!excavation"></app-loader>
 
     <v-container v-else>
-      <app-edit-excavation-modal :excavation="excavation"></app-edit-excavation-modal>
+      <app-edit-excavation-dialog :excavation="excavation"></app-edit-excavation-dialog>
 
       <v-row justify="center">
         <v-col xs="12" lg="6">
@@ -25,7 +25,7 @@
             </v-card-text>
             <v-card-actions>
               <v-spacer></v-spacer>
-              <v-btn icon v-on:click="openEditModal()">
+              <v-btn icon v-on:click="openEditDialog()">
                 <v-icon color="amber">edit</v-icon>
               </v-btn>
             </v-card-actions>
@@ -77,7 +77,7 @@ export default {
 
       this.excavation = this.$store.getters['excavations/bySlug'](slug);
     },
-    openEditModal() {
+    openEditDialog() {
       EventBus.$emit('excavations.dialogs.edit.open');
     },
   },

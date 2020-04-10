@@ -8,7 +8,7 @@
     <app-loader v-if="!digSite"></app-loader>
 
     <v-container v-else>
-      <app-edit-dig-site-modal :digSite="digSite"></app-edit-dig-site-modal>
+      <app-edit-dig-site-dialog :digSite="digSite"></app-edit-dig-site-dialog>
 
       <v-row justify="center">
         <v-col xs="12" lg="6">
@@ -20,7 +20,7 @@
             </v-card-text>
             <v-card-actions>
               <v-spacer></v-spacer>
-              <v-btn icon v-on:click="openEditModal()">
+              <v-btn icon v-on:click="openEditDialog()">
                 <v-icon color="amber">edit</v-icon>
               </v-btn>
             </v-card-actions>
@@ -63,7 +63,7 @@ export default {
 
       this.digSite = this.$store.getters['digSites/bySlug'](slug);
     },
-    openEditModal() {
+    openEditDialog() {
       EventBus.$emit('dig-sites.dialogs.edit.open');
     },
   },

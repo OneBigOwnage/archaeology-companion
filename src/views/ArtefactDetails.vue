@@ -8,7 +8,7 @@
     <app-loader v-if="!artefact"></app-loader>
 
     <v-container v-else>
-      <app-edit-artefact-modal v-bind:artefact="artefact"></app-edit-artefact-modal>
+      <app-edit-artefact-dialog v-bind:artefact="artefact"></app-edit-artefact-dialog>
 
       <v-row justify="center">
         <v-col xs="12" lg="6">
@@ -30,7 +30,7 @@
             </v-card-text>
             <v-card-actions>
               <v-spacer></v-spacer>
-              <v-btn icon v-on:click="openEditModal()">
+              <v-btn icon v-on:click="openEditDialog()">
                 <v-icon color="amber">edit</v-icon>
               </v-btn>
             </v-card-actions>
@@ -83,7 +83,7 @@ export default {
 
       this.artefact = this.$store.getters['artefacts/bySlug'](slug);
     },
-    openEditModal() {
+    openEditDialog() {
       EventBus.$emit('artefacts.dialogs.edit.open');
     },
   },

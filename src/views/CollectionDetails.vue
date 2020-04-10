@@ -8,7 +8,7 @@
     <app-loader v-if="!collection"></app-loader>
 
     <v-container v-else>
-      <app-edit-collection-modal :collection="collection"></app-edit-collection-modal>
+      <app-edit-collection-dialog :collection="collection"></app-edit-collection-dialog>
 
       <v-row justify="center">
         <v-col xs="12" lg="6">
@@ -27,7 +27,7 @@
             </v-card-text>
             <v-card-actions>
               <v-spacer></v-spacer>
-              <v-btn icon v-on:click="openEditModal()">
+              <v-btn icon v-on:click="openEditDialog()">
                 <v-icon color="amber">edit</v-icon>
               </v-btn>
             </v-card-actions>
@@ -69,7 +69,7 @@ export default {
 
       this.collection = this.$store.getters['collections/bySlug'](slug);
     },
-    openEditModal() {
+    openEditDialog() {
       EventBus.$emit('collections.dialogs.edit.open');
     },
   },
