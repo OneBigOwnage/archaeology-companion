@@ -116,7 +116,7 @@ export default {
     },
     table() {
       return [
-        { label: 'Dig site', text: this.digSite.name, link: this.$router.resolve(this.digSite.route()) },
+        { label: 'Dig site', text: this.digSite.name, link: this.$router.resolve(this.digSite.route()).href },
         { label: 'Level requirement', text: this.excavation.level },
       ];
     },
