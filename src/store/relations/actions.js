@@ -50,6 +50,9 @@ export default {
 
         commit('detach', { key, first, second });
     },
+    setPivotProps({ commit }, payload) {
+        commit('setPivotProps', payload);
+    },
     reset({ commit }) {
         commit('reset');
     }

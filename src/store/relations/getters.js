@@ -126,4 +126,7 @@ export default {
 
         return potential[0];
     },
+    pivotProps: (state) => ({ stateKey, firstID, secondID }) => {
+        return state[stateKey].find(relation => relation.firstID === firstID && relation.secondID === secondID).pivotProps;
+    },
 };
