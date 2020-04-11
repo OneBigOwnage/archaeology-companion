@@ -46,7 +46,18 @@
                   <v-list-item-title>{{ artefact.name }}</v-list-item-title>
                 </v-list-item-content>
                 <v-list-item-action>
-                  <v-list-item-action-text>Chronotes: {{ artefact.chronotes }}</v-list-item-action-text>
+                  <v-list-item-action-text>
+                    <span style="width: 70px; display: inline-block;">
+                      Level:
+                      <span
+                        class="text-right"
+                        style="width: 23px; display: inline-block;"
+                      >{{ artefactLevel(artefact) }}</span>
+                    </span>
+                    <span
+                      style="width: 100px; display: inline-block; padding-left: 10px;"
+                    >Chronotes: {{ artefact.chronotes }}</span>
+                  </v-list-item-action-text>
                 </v-list-item-action>
               </v-list-item>
             </v-list>
@@ -59,6 +70,7 @@
 
 <script>
 import EventBus from '@/eventbus';
+import { isInterpretedAsChronotes, getNumberOfChronotes } from '@/helpers';
 
 export default {
   data() {
@@ -78,6 +90,9 @@ export default {
     openEditDialog() {
       EventBus.$emit('collections.dialogs.edit.open');
     },
+    artefactLevel(artefact) {
+      return this.$store.getters['relations/excavation'](artefact).level;
+    },
   },
   computed: {
     artefacts() {
@@ -88,10 +103,23 @@ export default {
       return this.$store.getters['relations/artefacts'](this.collection);
     },
     table() {
+      const level = this.artefacts.map(this.artefactLevel).sort((a, b) => a - b).pop() || '?';
+      let collectionChronotes = 0;
+
+      if (isInterpretedAsChronotes(this.collection.rewards)) {
+        collectionChronotes = getNumberOfChronotes(this.collection.rewards);
+      }
+
+      const totalChronotes = this.artefacts
+        .map(art => art.chronotes || 0)
+        .filter(chr => typeof chr === 'number') // @TODO [Niek, 2020-04-12] This can be removed once we have validation in place for the number of chronotes of an artefact.
+        .reduce((item, carry) => carry += item, collectionChronotes);
+
       return [
         { label: 'Hand in NPC', text: this.collection.NPCName },
         { label: 'Rewards for completing', text: this.collection.rewards },
-        { label: 'Total chronotes for completion', text: 1235 },
+        { label: 'Total chronotes for completion', text: totalChronotes },
+        { label: 'Level required for completion', text: level },
       ];
     },
   }
