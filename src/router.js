@@ -1,14 +1,14 @@
 import Vue from 'vue'
 import VueRouter from 'vue-router'
 import MaterialOverview from '@/views/MaterialOverview';
-import ArtefactOverview from '@/views/ArtefactOverview';
-import DigSiteOverview from '@/views/DigSiteOverview';
-import ExcavationOverview from '@/views/ExcavationOverview';
-import CollectionOverview from '@/views/CollectionOverview';
 import MaterialDetails from '@/views/MaterialDetails';
+import ArtefactOverview from '@/views/ArtefactOverview';
 import ArtefactDetails from '@/views/ArtefactDetails';
+import DigSiteOverview from '@/views/DigSiteOverview';
 import DigSiteDetails from '@/views/DigSiteDetails';
+import ExcavationOverview from '@/views/ExcavationOverview';
 import ExcavationDetails from '@/views/ExcavationDetails';
+import CollectionOverview from '@/views/CollectionOverview';
 import CollectionDetails from '@/views/CollectionDetails';
 
 Vue.use(VueRouter)
