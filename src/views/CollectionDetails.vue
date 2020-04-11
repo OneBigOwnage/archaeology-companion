@@ -100,6 +100,7 @@ export default {
         return [];
       }
 
+      // @TODO [Niek, 2020-04-12] Sort this list by level, asc.
       return this.$store.getters['relations/artefacts'](this.collection);
     },
     table() {
