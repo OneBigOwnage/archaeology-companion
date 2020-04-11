@@ -23,7 +23,14 @@
             </v-row>
             <v-row justify="center">
               <v-col sm="12" lg="4">
-                <v-text-field v-model="form.rewards" outlined label="Rewards" required></v-text-field>
+                <v-text-field
+                  :class="{ 'rewards-non-chronotes': !interpretedBoolean }"
+                  v-model="form.rewards"
+                  outlined
+                  label="Rewards"
+                  required
+                  :messages="interpretedAs"
+                ></v-text-field>
               </v-col>
             </v-row>
             <v-row justify="center">
@@ -126,9 +133,26 @@ export default {
     artefacts() {
       return this.$store.state.artefacts.all.map(autocompleteMapper);
     },
+    interpretedAs() {
+      const regex = /^(\d+)\schronote(s?)$/i;
+
+      if (regex.test(this.form.rewards)) {
+        const number = this.form.rewards.match(regex)[1];
+
+        return `This reward is interepreted as a number of chronotes (${number})`;
+      }
+
+      return `This reward is not interpreted as a number of chronotes, but a custom reward (${this.form.rewards})`;
+    },
+    interpretedBoolean() {
+      return /^(\d+)\schronote(s?)$/i.test(this.form.rewards);
+    },
   },
 }
 </script>
 
 <style>
+.rewards-non-chronotes .v-messages__message {
+  color: orange;
+}
 </style>
