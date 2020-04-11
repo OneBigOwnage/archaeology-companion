@@ -6,23 +6,26 @@
           <v-btn icon dark v-on:click="isOpen = false">
             <v-icon>mdi-close</v-icon>
           </v-btn>
-          <v-toolbar-title>Create new Material</v-toolbar-title>
+          <v-toolbar-title>Create new collection</v-toolbar-title>
         </v-toolbar>
 
         <v-container>
           <v-form>
             <v-row justify="center">
               <v-col sm="12" lg="4">
-                <v-text-field v-model="form.name" outlined label="Material name" required></v-text-field>
+                <v-text-field v-model="form.name" outlined label="Collection name" required></v-text-field>
               </v-col>
             </v-row>
-
             <v-row justify="center">
               <v-col sm="12" lg="4">
-                <v-text-field v-model="form.level" outlined label="Level requirement" required></v-text-field>
+                <v-text-field v-model="form.NPCName" outlined label="Collector NPC name" required></v-text-field>
               </v-col>
             </v-row>
-
+            <v-row justify="center">
+              <v-col sm="12" lg="4">
+                <v-text-field v-model="form.rewards" outlined label="Rewards" required></v-text-field>
+              </v-col>
+            </v-row>
             <v-row justify="center">
               <v-col sm="12" lg="4">
                 <v-autocomplete
@@ -38,23 +41,6 @@
                 ></v-autocomplete>
               </v-col>
             </v-row>
-
-            <v-row justify="center">
-              <v-col sm="12" lg="4">
-                <v-autocomplete
-                  label="Excavations"
-                  deletable-chips
-                  small-chips
-                  outlined
-                  multiple
-                  v-model="form.excavations"
-                  :items="excavations"
-                  :search-input.sync="excavationSearch"
-                  v-on:change="excavationSearch = ''"
-                ></v-autocomplete>
-              </v-col>
-            </v-row>
-
             <v-row justify="center">
               <v-col sm="12" lg="4" align="end">
                 <v-btn color="amber" v-on:click="save()">Save</v-btn>
@@ -68,8 +54,8 @@
 </template>
 
 <script>
+import Collection from '@/models/collection';
 import EventBus from '@/eventbus';
-import Material from '@/models/material';
 import { autocompleteMapper } from '@/helpers';
 import { v4 as uuidv4 } from 'uuid';
 
@@ -77,42 +63,36 @@ export default {
   data() {
     return {
       isOpen: false,
-      excavationSearch: '',
       artefactSearch: '',
       form: {
         name: null,
-        level: null,
+        NPCName: null,
+        rewards: null,
         artefacts: [],
-        excavations: [],
       },
     };
   },
   methods: {
     save() {
-      const material = new Material(uuidv4(), this.form.name, this.form.level);
+      const collection = new Collection(uuidv4(), this.form.name, this.form.NPCName, this.form.rewards);
 
-      const excavations = this.$store.state.excavations.all.filter(excavation => this.form.excavations.includes(excavation.ID));
+      this.$store.dispatch('collections/add', collection);
+
       const artefacts = this.$store.state.artefacts.all.filter(artefact => this.form.artefacts.includes(artefact.ID));
 
-      this.$store.dispatch('materials/add', material);
+      artefacts.forEach(artefact => this.$store.dispatch('relations/attach', [artefact, collection]));
 
-      excavations.forEach(excavation => this.$store.dispatch('relations/attach', [excavation, material]));
-      artefacts.forEach(artefact => this.$store.dispatch('relations/attach', [artefact, material]));
-
-      this.$router.push(material.route());
+      this.$router.push(collection.route());
     },
   },
   computed: {
-    excavations() {
-      return this.$store.state.excavations.all.map(autocompleteMapper);
-    },
     artefacts() {
       return this.$store.state.artefacts.all.map(autocompleteMapper);
     },
   },
   created() {
-    EventBus.$on('materials.dialogs.create.open', () => this.isOpen = true);
-    EventBus.$on('materials.dialogs.create.hide', () => this.isOpen = false);
+    EventBus.$on('collections.dialogs.create.open', () => this.isOpen = true);
+    EventBus.$on('collections.dialogs.create.hide', () => this.isOpen = false);
   },
 }
 </script>

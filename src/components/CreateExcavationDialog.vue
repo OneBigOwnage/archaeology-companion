@@ -6,51 +6,43 @@
           <v-btn icon dark v-on:click="isOpen = false">
             <v-icon>mdi-close</v-icon>
           </v-btn>
-          <v-toolbar-title>Create new Material</v-toolbar-title>
+          <v-toolbar-title>Create new excavation</v-toolbar-title>
         </v-toolbar>
 
         <v-container>
           <v-form>
             <v-row justify="center">
               <v-col sm="12" lg="4">
-                <v-text-field v-model="form.name" outlined label="Material name" required></v-text-field>
+                <v-text-field v-model="form.name" outlined label="Excavation name" required></v-text-field>
               </v-col>
             </v-row>
-
             <v-row justify="center">
               <v-col sm="12" lg="4">
                 <v-text-field v-model="form.level" outlined label="Level requirement" required></v-text-field>
               </v-col>
             </v-row>
-
             <v-row justify="center">
               <v-col sm="12" lg="4">
                 <v-autocomplete
-                  label="Artefacts"
-                  deletable-chips
-                  small-chips
+                  label="Dig site"
+                  v-model="form.digSiteID"
                   outlined
-                  multiple
-                  v-model="form.artefacts"
-                  :items="artefacts"
-                  :search-input.sync="artefactSearch"
-                  v-on:change="artefactSearch = ''"
+                  :items="digSites"
                 ></v-autocomplete>
               </v-col>
             </v-row>
-
             <v-row justify="center">
               <v-col sm="12" lg="4">
                 <v-autocomplete
-                  label="Excavations"
+                  label="Materials"
                   deletable-chips
                   small-chips
                   outlined
                   multiple
-                  v-model="form.excavations"
-                  :items="excavations"
-                  :search-input.sync="excavationSearch"
-                  v-on:change="excavationSearch = ''"
+                  v-model="form.materials"
+                  :items="materials"
+                  :search-input.sync="materialSearch"
+                  v-on:change="materialSearch = ''"
                 ></v-autocomplete>
               </v-col>
             </v-row>
@@ -68,8 +60,8 @@
 </template>
 
 <script>
+import Excavation from '@/models/excavation';
 import EventBus from '@/eventbus';
-import Material from '@/models/material';
 import { autocompleteMapper } from '@/helpers';
 import { v4 as uuidv4 } from 'uuid';
 
@@ -77,42 +69,39 @@ export default {
   data() {
     return {
       isOpen: false,
-      excavationSearch: '',
-      artefactSearch: '',
+      materialSearch: '',
       form: {
         name: null,
         level: null,
-        artefacts: [],
-        excavations: [],
+        digSiteID: null,
+        materials: [],
       },
     };
   },
   methods: {
     save() {
-      const material = new Material(uuidv4(), this.form.name, this.form.level);
+      const excavation = new Excavation(uuidv4(), this.form.name, this.form.level, this.form.digSiteID);
 
-      const excavations = this.$store.state.excavations.all.filter(excavation => this.form.excavations.includes(excavation.ID));
-      const artefacts = this.$store.state.artefacts.all.filter(artefact => this.form.artefacts.includes(artefact.ID));
+      const materials = this.$store.state.materials.all.filter(material => this.form.materials.includes(material.ID));
 
-      this.$store.dispatch('materials/add', material);
+      this.$store.dispatch('excavations/add', excavation);
 
-      excavations.forEach(excavation => this.$store.dispatch('relations/attach', [excavation, material]));
-      artefacts.forEach(artefact => this.$store.dispatch('relations/attach', [artefact, material]));
+      materials.forEach(material => this.$store.dispatch('relations/attach', [excavation, material]));
 
-      this.$router.push(material.route());
+      this.$router.push(excavation.route());
     },
   },
   computed: {
-    excavations() {
-      return this.$store.state.excavations.all.map(autocompleteMapper);
+    materials() {
+      return this.$store.state.materials.all.map(autocompleteMapper);
     },
-    artefacts() {
-      return this.$store.state.artefacts.all.map(autocompleteMapper);
+    digSites() {
+      return this.$store.state.digSites.all.map(autocompleteMapper);
     },
   },
   created() {
-    EventBus.$on('materials.dialogs.create.open', () => this.isOpen = true);
-    EventBus.$on('materials.dialogs.create.hide', () => this.isOpen = false);
+    EventBus.$on('excavations.dialogs.create.open', () => this.isOpen = true);
+    EventBus.$on('excavations.dialogs.create.hide', () => this.isOpen = false);
   },
 }
 </script>
