@@ -46,3 +46,18 @@ export const autocompleteMapper = model => {
 export const sortByProperty = property => (a, b) => a[property].localeCompare(b[property]);
 
 export const createFuzzyMatcher = string => new RegExp('.*' + string.toLowerCase().split('').join('.*') + '.*');
+
+
+const chronotesRewardRegex = /^(\d+)\schronote(s?)$/i;
+
+export const isInterpretedAsChronotes = string => chronotesRewardRegex.test(string);
+
+export const getNumberOfChronotes = string => {
+  if (!isInterpretedAsChronotes(string)) {
+    throw new Error(`[${string}] is not interpreted as a number of chronotes and thus cannot get number of chronotes from that string.`);
+  }
+
+  return parseInt(
+    string.match(chronotesRewardRegex)[1]
+  );
+};
