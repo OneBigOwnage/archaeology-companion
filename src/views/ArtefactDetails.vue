@@ -38,7 +38,7 @@
             </v-toolbar>
             <v-list dense>
               <v-list-item
-                v-for="material in materials"
+                v-for="(material, index) in materials"
                 :key="material.ID"
                 v-on:click="$router.push(material.route())"
               >
@@ -46,7 +46,7 @@
                   <v-list-item-title>{{ material.name }}</v-list-item-title>
                 </v-list-item-content>
                 <v-list-item-action>
-                  <v-list-item-action-text v-text="'x' + materialAmount(material)"></v-list-item-action-text>
+                  <v-list-item-action-text>x{{ materialAmounts[index] }}</v-list-item-action-text>
                 </v-list-item-action>
               </v-list-item>
             </v-list>
@@ -101,8 +101,13 @@ export default {
     },
     materialAmount(material) {
       const getterArgs = { stateKey: 'artefacts_materials', firstID: this.artefact.ID, secondID: material.ID };
+      const pivot = this.$store.getters['relations/pivotProps'](getterArgs);
 
-      return this.$store.getters['relations/pivotProps'](getterArgs).amount;
+      if (pivot && Object.prototype.hasOwnProperty.call(pivot, 'amount')) {
+        return pivot.amount;
+      }
+
+      return 0;
     },
   },
   computed: {
@@ -126,6 +131,18 @@ export default {
       }
 
       return this.$store.getters['relations/excavation'](this.artefact);
+    },
+    materialAmounts() {
+      return this.materials.map(material => {
+        const getterArgs = { stateKey: 'artefacts_materials', firstID: this.artefact.ID, secondID: material.ID };
+        const pivot = this.$store.getters['relations/pivotProps'](getterArgs);
+
+        if (pivot && Object.prototype.hasOwnProperty.call(pivot, 'amount')) {
+          return pivot.amount;
+        }
+
+        return 0;
+      });
     },
     table() {
       return [
