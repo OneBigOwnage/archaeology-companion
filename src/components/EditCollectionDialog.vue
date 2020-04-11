@@ -24,12 +24,12 @@
             <v-row justify="center">
               <v-col sm="12" lg="4">
                 <v-text-field
-                  :class="{ 'rewards-non-chronotes': !interpretedBoolean }"
+                  :class="{ 'rewards-non-chronotes': isInterpretedAsChronotes === false }"
                   v-model="form.rewards"
                   outlined
                   label="Rewards"
                   required
-                  :messages="interpretedAs"
+                  :messages="interpretationMessage"
                 ></v-text-field>
               </v-col>
             </v-row>
@@ -62,7 +62,7 @@
 <script>
 import Collection from '@/models/collection';
 import EventBus from '@/eventbus';
-import { autocompleteMapper } from '@/helpers';
+import { autocompleteMapper, isInterpretedAsChronotes, getNumberOfChronotes } from '@/helpers';
 
 export default {
   data() {
@@ -133,19 +133,23 @@ export default {
     artefacts() {
       return this.$store.state.artefacts.all.map(autocompleteMapper);
     },
-    interpretedAs() {
-      const regex = /^(\d+)\schronote(s?)$/i;
+    interpretationMessage() {
+      if (!this.form.rewards) {
+        return 'Tip: if the reward is a number of chronotes, use the format "123 chronotes"'
+      }
 
-      if (regex.test(this.form.rewards)) {
-        const number = this.form.rewards.match(regex)[1];
-
-        return `This reward is interepreted as a number of chronotes (${number})`;
+      if (isInterpretedAsChronotes(this.form.rewards)) {
+        return `This reward is interepreted as a number of chronotes (${getNumberOfChronotes(this.form.rewards)})`;
       }
 
       return `This reward is not interpreted as a number of chronotes, but a custom reward (${this.form.rewards})`;
     },
-    interpretedBoolean() {
-      return /^(\d+)\schronote(s?)$/i.test(this.form.rewards);
+    isInterpretedAsChronotes() {
+      if (!this.form.rewards) {
+        return null;
+      }
+
+      return isInterpretedAsChronotes(this.form.rewards);
     },
   },
 }
