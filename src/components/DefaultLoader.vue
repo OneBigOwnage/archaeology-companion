@@ -5,9 +5,7 @@
 </template>
 
 <script>
-export default {
-  name: 'app-loader'
-}
+export default {}
 </script>
 
 <style>
