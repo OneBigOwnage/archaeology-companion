@@ -132,7 +132,13 @@ export default {
         const getByArgs = { stateKey: 'artefacts_materials', firstID: this.artefact.ID, secondID: material.ID };
         const pivot = this.$store.getters['relations/pivotProps'](getByArgs);
 
-        return { ID: material.ID, amount: pivot.amount || 0 };
+        let amount = 0;
+
+        if (pivot && Object.prototype.hasOwnProperty.call(pivot, 'amount')) {
+          amount = pivot.amount;
+        }
+
+        return { ID: material.ID, amount };
       });
 
       this.form.collections = this.$store.getters['relations/collections'](this.artefact).map(collection => collection.ID);
