@@ -46,7 +46,7 @@
                   <v-list-item-title>{{ material.name }}</v-list-item-title>
                 </v-list-item-content>
                 <v-list-item-action>
-                  <v-list-item-action-text v-text="'x' + material.level"></v-list-item-action-text>
+                  <v-list-item-action-text v-text="'x' + materialAmount(material)"></v-list-item-action-text>
                 </v-list-item-action>
               </v-list-item>
             </v-list>
@@ -98,6 +98,11 @@ export default {
     },
     openEditDialog() {
       EventBus.$emit('artefacts.dialogs.edit.open');
+    },
+    materialAmount(material) {
+      const getterArgs = { stateKey: 'artefacts_materials', firstID: this.artefact.ID, secondID: material.ID };
+
+      return this.$store.getters['relations/pivotProps'](getterArgs).amount;
     },
   },
   computed: {
