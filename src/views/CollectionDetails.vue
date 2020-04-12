@@ -71,8 +71,12 @@
 <script>
 import EventBus from '@/eventbus';
 import { isInterpretedAsChronotes, getNumberOfChronotes } from '@/helpers';
+import AppEditCollectionDialog from '@/components/EditCollectionDialog';
 
 export default {
+  components: {
+    AppEditCollectionDialog
+  },
   data() {
     return {
       collection: null,

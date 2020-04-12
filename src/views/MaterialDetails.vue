@@ -79,8 +79,12 @@
 
 <script>
 import EventBus from '@/eventbus';
+import AppEditMaterialDialog from '@/components/EditMaterialDialog';
 
 export default {
+  components: {
+    AppEditMaterialDialog
+  },
   data() {
     return {
       material: null,

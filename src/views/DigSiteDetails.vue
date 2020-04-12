@@ -57,8 +57,12 @@
 
 <script>
 import EventBus from '@/eventbus';
+import AppEditDigSiteDialog from '@/components/EditDigSiteDialog';
 
 export default {
+  components: {
+    AppEditDigSiteDialog
+  },
   data() {
     return {
       digSite: null,

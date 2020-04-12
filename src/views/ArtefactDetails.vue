@@ -80,8 +80,12 @@
 
 <script>
 import EventBus from '@/eventbus';
+import AppEditArtefactDialog from '@/components/EditArtefactDialog';
 
 export default {
+  components: {
+    AppEditArtefactDialog
+  },
   data() {
     return {
       artefact: null,

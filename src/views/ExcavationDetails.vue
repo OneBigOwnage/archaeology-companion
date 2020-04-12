@@ -72,8 +72,12 @@
 
 <script>
 import EventBus from '@/eventbus';
+import AppEditExcavationDialog from '@/components/EditExcavationDialog';
 
 export default {
+  components: {
+    AppEditExcavationDialog
+  },
   data() {
     return {
       excavation: null,
