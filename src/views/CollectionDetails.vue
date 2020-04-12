@@ -117,7 +117,8 @@ export default {
 
       const totalChronotes = this.artefacts
         .map(art => art.chronotes || 0)
-        .filter(chr => typeof chr === 'number') // @TODO [Niek, 2020-04-12] This can be removed once we have validation in place for the number of chronotes of an artefact.
+        .filter(chr => !isNaN(chr)) // @TODO [Niek, 2020-04-12] This can be removed once we have validation in place for the number of chronotes of an artefact.
+        .map(chr => parseInt(chr, 10))
         .reduce((item, carry) => carry += item, collectionChronotes);
 
       return [
