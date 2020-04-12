@@ -10,20 +10,27 @@
         </v-toolbar>
 
         <v-container>
-          <v-form>
+          <v-form v-model="isFormValid" ref="form">
             <v-row justify="center">
               <v-col sm="12" lg="4">
-                <v-text-field v-model="form.name" outlined label="Material name" required></v-text-field>
+                <v-text-field
+                  outlined
+                  label="Material name"
+                  required
+                  v-model="form.name"
+                  :rules="rules.name"
+                ></v-text-field>
               </v-col>
             </v-row>
 
             <v-row justify="center">
               <v-col sm="12" lg="4">
                 <v-text-field
-                  v-model="form.level"
                   outlined
                   label="Skill level requirement"
                   required
+                  :rules="rules.level"
+                  v-model="form.level"
                 ></v-text-field>
               </v-col>
             </v-row>
@@ -72,17 +79,23 @@
 import Material from '@/models/material';
 import EventBus from '@/eventbus';
 import { autocompleteMapper } from '@/helpers';
+import { required, numeric, between } from '@/validationrules';
 
 export default {
   data() {
     return {
       materialToUpdate: null,
       isOpen: false,
+      isFormValid: false,
       form: {
         name: null,
         level: null,
         artefacts: null,
         excavations: null,
+      },
+      rules: {
+        name: [required()],
+        level: [numeric(), between(1, 120)],
       },
     };
   },
@@ -95,6 +108,12 @@ export default {
       this.form.excavations = this.$store.getters['relations/excavations'](this.material).map(excavation => excavation.ID);
     },
     save() {
+      this.$refs.form.validate();
+
+      if (!this.isFormValid) {
+        return;
+      }
+
       const isNameDiff = this.material.name !== this.form.name;
 
       this.updateRelatedArtefacts();
