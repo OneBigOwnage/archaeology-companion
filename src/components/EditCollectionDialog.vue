@@ -10,25 +10,38 @@
         </v-toolbar>
 
         <v-container>
-          <v-form>
+          <v-form v-model="isFormValid" ref="form">
             <v-row justify="center">
               <v-col sm="12" lg="4">
-                <v-text-field v-model="form.name" outlined label="Collection name" required></v-text-field>
+                <v-text-field
+                  outlined
+                  label="Collection name"
+                  required
+                  v-model="form.name"
+                  :rules="rules.name"
+                ></v-text-field>
               </v-col>
             </v-row>
             <v-row justify="center">
               <v-col sm="12" lg="4">
-                <v-text-field v-model="form.NPCName" outlined label="Collector NPC name" required></v-text-field>
+                <v-text-field
+                  outlined
+                  label="Collector NPC name"
+                  required
+                  v-model="form.NPCName"
+                  :rules="rules.NPCName"
+                ></v-text-field>
               </v-col>
             </v-row>
             <v-row justify="center">
               <v-col sm="12" lg="4">
                 <v-text-field
                   :class="{ 'rewards-non-chronotes': isInterpretedAsChronotes === false }"
-                  v-model="form.rewards"
                   outlined
                   label="Rewards"
                   required
+                  v-model="form.rewards"
+                  :rules="rules.rewards"
                   :messages="interpretationMessage"
                 ></v-text-field>
               </v-col>
@@ -63,17 +76,24 @@
 import Collection from '@/models/collection';
 import EventBus from '@/eventbus';
 import { autocompleteMapper, isInterpretedAsChronotes, getNumberOfChronotes } from '@/helpers';
+import { required } from '@/validationrules';
 
 export default {
   data() {
     return {
       collectionToUpdate: null,
       isOpen: null,
+      isFormValid: false,
       form: {
         name: null,
         NPCName: null,
         rewards: null,
         artefacts: null,
+      },
+      rules: {
+        name: [required()],
+        NPCName: [required()],
+        rewards: [required()],
       },
     };
   },
@@ -86,6 +106,12 @@ export default {
       this.form.artefacts = this.$store.getters['relations/artefacts'](this.collection).map(artefact => artefact.ID);
     },
     save() {
+      this.$refs.form.validate();
+
+      if (!this.isFormValid) {
+        return;
+      }
+
       const isNameDiff = this.collection.name !== this.form.name;
 
       this.updateRelatedArtefacts();
