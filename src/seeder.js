@@ -54,8 +54,20 @@ export default class Seeder {
                 faker.random.word(),
                 faker.random.number({ min: 600, max: 20000 }),
                 faker.random.number({ min: 100, max: 1000 }),
-                sluggify(faker.random.words(3))
+                sluggify(faker.random.words(3)),
+                []
             );
+
+            if (Math.random() > 0.9) {
+                const additionalItems = [];
+                const amount = faker.random.number({ min: 1, max: 3 });
+
+                for (let j = 0; j < amount; j++) {
+                    additionalItems.push({ name: faker.random.word(), amount: faker.random.number({ min: 1, max: 3 }) });
+                }
+
+                artefact.additionalItems = additionalItems;
+            }
 
             this.artefacts.push(artefact);
 
@@ -99,12 +111,12 @@ export default class Seeder {
     seedCollections() {
         this.$store.dispatch('collections/reset');
 
-        const suffixes = [ 'I', 'II', 'III', 'IV' ];
+        const suffixes = ['I', 'II', 'III', 'IV'];
 
         for (let i = 0; i < 10; i++) {
             const collection = new Collection(
                 uuidv4(),
-                [ faker.random.word(), faker.random.arrayElement(suffixes) ].join(' '),
+                [faker.random.word(), faker.random.arrayElement(suffixes)].join(' '),
                 faker.name.findName(),
                 faker.random.number({ min: 50, max: 1000 }) + ' chronotes'
             );
@@ -123,7 +135,7 @@ export default class Seeder {
             shuffleArray(this.artefacts);
             shuffleArray(this.materials);
 
-            ignoreErrors( () => this.$store.dispatch('relations/attach', [ this.artefacts[0], this.materials[0] ]));
+            ignoreErrors(() => this.$store.dispatch('relations/attach', [this.artefacts[0], this.materials[0]]));
         }
 
         // Link artefacts to collections.
@@ -131,7 +143,7 @@ export default class Seeder {
             shuffleArray(this.artefacts);
             shuffleArray(this.collections);
 
-            ignoreErrors( () => this.$store.dispatch('relations/attach', [ this.artefacts[0], this.collections[0] ]));
+            ignoreErrors(() => this.$store.dispatch('relations/attach', [this.artefacts[0], this.collections[0]]));
         }
 
         // Link excavations to materials.
@@ -139,7 +151,7 @@ export default class Seeder {
             shuffleArray(this.excavations);
             shuffleArray(this.materials);
 
-            ignoreErrors( () => this.$store.dispatch('relations/attach', [ this.excavations[0], this.materials[0] ]));
+            ignoreErrors(() => this.$store.dispatch('relations/attach', [this.excavations[0], this.materials[0]]));
         }
 
         // Link artefacts to excavations.
