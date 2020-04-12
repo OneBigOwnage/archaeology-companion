@@ -1,7 +1,9 @@
+import { requireNotNull } from '@/helpers';
+
 export default class Relation {
   constructor(firstID, secondID, pivotProps = null) {
-    this.firstID = firstID;
-    this.secondID = secondID;
+    this.firstID = requireNotNull(firstID);
+    this.secondID = requireNotNull(secondID);
     this.pivotProps = pivotProps;
   }
 }

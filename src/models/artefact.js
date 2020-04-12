@@ -1,15 +1,16 @@
-import { sluggify } from '@/helpers';
+import { sluggify, requireNotNull } from '@/helpers';
 import Model from '@/models/model';
 
 export default class Artefact extends Model {
     constructor(ID, name, xp, chronotes, excavationID, additionalItems) {
         super();
-        this.ID = ID;
-        this.name = name;
-        this.xp = xp;
-        this.chronotes = chronotes;
-        this.excavationID = excavationID;
-        this.additionalItems = additionalItems;
+
+        this.ID = requireNotNull(ID);
+        this.name = requireNotNull(name);
+        this.xp = requireNotNull(xp);
+        this.chronotes = requireNotNull(chronotes);
+        this.excavationID = requireNotNull(excavationID);
+        this.additionalItems = requireNotNull(additionalItems);
     }
 
     slug() {

@@ -61,3 +61,11 @@ export const getNumberOfChronotes = string => {
     string.match(chronotesRewardRegex)[1]
   );
 };
+
+export const requireNotNull = (value, descriptor = 'field') => {
+  if (value === undefined || value === null) {
+    throw new Error(`${descriptor} may not be empty.`);
+  }
+
+  return value;
+};

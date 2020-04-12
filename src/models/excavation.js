@@ -1,13 +1,14 @@
-import { sluggify } from '@/helpers';
+import { sluggify, requireNotNull } from '@/helpers';
 import Model from '@/models/model';
 
 export default class Excavation extends Model {
     constructor(ID, name, level, digSiteID) {
         super();
-        this.ID = ID;
-        this.name = name;
-        this.level = level;
-        this.digSiteID = digSiteID;
+
+        this.ID = requireNotNull(ID);
+        this.name = requireNotNull(name);
+        this.level = requireNotNull(level);
+        this.digSiteID = requireNotNull(digSiteID);
     }
 
     slug() {

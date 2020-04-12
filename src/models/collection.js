@@ -1,13 +1,14 @@
-import { sluggify } from '@/helpers';
+import { sluggify, requireNotNull } from '@/helpers';
 import Model from '@/models/model';
 
 export default class Collection extends Model {
     constructor(ID, name, NPCName, rewards) {
         super();
-        this.ID = ID;
-        this.name = name;
-        this.NPCName = NPCName;
-        this.rewards = rewards;
+
+        this.ID = requireNotNull(ID);
+        this.name = requireNotNull(name);
+        this.NPCName = requireNotNull(NPCName);
+        this.rewards = requireNotNull(rewards);
     }
 
     slug() {
