@@ -72,6 +72,7 @@
             </v-row>
             <v-row justify="center">
               <v-col sm="12" lg="4">
+                <span class="subtitle-1">Materials</span>
                 <v-row v-for="(item, index) in form.materials" :key="index">
                   <v-col cols="8">
                     <v-autocomplete
@@ -88,6 +89,7 @@
                       class="counter-line-height-fix"
                       prepend-inner-icon="remove"
                       outlined
+                      label="Amount"
                       dense
                       v-model="form.materials[index].amount"
                       v-on:click:append="increment(index)"
@@ -96,12 +98,52 @@
                   </v-col>
                   <v-col cols="1">
                     <v-btn icon color="red" class="mt-1" v-on:click="removeMaterial(index)">
-                      <v-icon>delete_forever</v-icon>
+                      <v-icon>clear</v-icon>
                     </v-btn>
                   </v-col>
                 </v-row>
 
-                <v-btn block v-on:click="addMaterial()">+ material</v-btn>
+                <v-btn block v-on:click="addMaterial()">
+                  <v-icon>add</v-icon>&nbsp;Material
+                </v-btn>
+              </v-col>
+            </v-row>
+
+            <v-row justify="center">
+              <v-col sm="12" lg="4">
+                <span class="subtitle-1">Additional items</span>
+
+                <v-row v-for="(item, index) in form.additionalItems" :key="index">
+                  <v-col cols="8">
+                    <v-text-field
+                      outlined
+                      dense
+                      label="Item name"
+                      v-model="form.additionalItems[index].name"
+                    ></v-text-field>
+                  </v-col>
+                  <v-col cols="3">
+                    <v-text-field
+                      append-icon="add"
+                      class="counter-line-height-fix"
+                      prepend-inner-icon="remove"
+                      outlined
+                      dense
+                      v-model="form.additionalItems[index].amount"
+                      v-on:click:append="incrementItem(index)"
+                      v-on:click:prepend-inner="decrementItem(index)"
+                    ></v-text-field>
+                  </v-col>
+                  <v-col cols="1">
+                    <v-btn icon color="red" class="mt-1" v-on:click="removeAdditionalItem(index)">
+                      <v-icon>clear</v-icon>
+                    </v-btn>
+                  </v-col>
+                </v-row>
+
+                <v-btn block v-on:click="addAdditionalItem()">
+                  <v-icon>add</v-icon>&nbsp;Item
+                </v-btn>
               </v-col>
             </v-row>
 
@@ -137,6 +179,7 @@ export default {
         excavationID: null,
         collections: [],
         materials: [],
+        additionalItems: [],
       },
       rules: {
         name: [required()],
@@ -154,7 +197,7 @@ export default {
         return;
       }
 
-      const artefact = new Artefact(uuidv4(), this.form.name, this.form.xp, this.form.chronotes, this.form.excavationID);
+      const artefact = new Artefact(uuidv4(), this.form.name, this.form.xp, this.form.chronotes, this.form.excavationID, this.form.additionalItems);
 
       const materialIDs = this.form.materials.map(obj => obj.ID);
       const materials = this.$store.state.materials.all.filter(material => materialIDs.includes(material.ID));
@@ -187,6 +230,18 @@ export default {
     },
     removeMaterial(index) {
       this.form.materials.splice(index, 1);
+    },
+    addAdditionalItem() {
+      this.form.additionalItems.push({ name: null, amount: 0 });
+    },
+    removeAdditionalItem(index) {
+      this.form.additionalItems.splice(index, 1);
+    },
+    incrementItem(index) {
+      this.form.additionalItems[index].amount++;
+    },
+    decrementItem(index) {
+      this.form.additionalItems[index].amount--;
     },
   },
   computed: {

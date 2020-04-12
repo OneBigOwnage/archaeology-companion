@@ -75,6 +75,7 @@
 
             <v-row justify="center">
               <v-col sm="12" lg="4">
+                <span class="subtitle-1">Materials</span>
                 <v-row v-for="(item, index) in form.materials" :key="index">
                   <v-col cols="8">
                     <v-autocomplete
@@ -88,6 +89,7 @@
                   <v-col cols="3">
                     <v-text-field
                       append-icon="add"
+                      label="Amount"
                       class="counter-line-height-fix"
                       prepend-inner-icon="remove"
                       outlined
@@ -99,12 +101,52 @@
                   </v-col>
                   <v-col cols="1">
                     <v-btn icon color="red" class="mt-1" v-on:click="removeMaterial(index)">
-                      <v-icon>delete_forever</v-icon>
+                      <v-icon>clear</v-icon>
                     </v-btn>
                   </v-col>
                 </v-row>
 
-                <v-btn block v-on:click="addMaterial()">+ material</v-btn>
+                <v-btn block v-on:click="addMaterial()">
+                  <v-icon>add</v-icon>&nbsp;Material
+                </v-btn>
+              </v-col>
+            </v-row>
+
+            <v-row justify="center">
+              <v-col sm="12" lg="4">
+                <span class="subtitle-1">Additional items</span>
+
+                <v-row v-for="(item, index) in form.additionalItems" :key="index">
+                  <v-col cols="8">
+                    <v-text-field
+                      outlined
+                      dense
+                      label="Item name"
+                      v-model="form.additionalItems[index].name"
+                    ></v-text-field>
+                  </v-col>
+                  <v-col cols="3">
+                    <v-text-field
+                      append-icon="add"
+                      class="counter-line-height-fix"
+                      prepend-inner-icon="remove"
+                      outlined
+                      dense
+                      v-model="form.additionalItems[index].amount"
+                      v-on:click:append="incrementItem(index)"
+                      v-on:click:prepend-inner="decrementItem(index)"
+                    ></v-text-field>
+                  </v-col>
+                  <v-col cols="1">
+                    <v-btn icon color="red" class="mt-1" v-on:click="removeAdditionalItem(index)">
+                      <v-icon>clear</v-icon>
+                    </v-btn>
+                  </v-col>
+                </v-row>
+
+                <v-btn block v-on:click="addAdditionalItem()">
+                  <v-icon>add</v-icon>&nbsp;Item
+                </v-btn>
               </v-col>
             </v-row>
 
@@ -139,6 +181,7 @@ export default {
         excavationID: null,
         materials: [],
         collections: null,
+        additionalItems: [],
       },
       rules: {
         name: [required()],
@@ -154,6 +197,7 @@ export default {
       this.form.xp = this.artefact.xp;
       this.form.chronotes = this.artefact.chronotes;
       this.form.excavationID = this.artefact.excavationID;
+      this.form.additionalItems = this.artefact.additionalItems;
 
       this.form.materials = this.$store.getters['relations/materials'](this.artefact).map(material => {
         const getByArgs = { stateKey: 'artefacts_materials', firstID: this.artefact.ID, secondID: material.ID };
@@ -186,6 +230,7 @@ export default {
       this.artefactToUpdate.xp = this.form.xp;
       this.artefactToUpdate.chronotes = this.form.chronotes;
       this.artefactToUpdate.excavationID = this.form.excavationID;
+      this.artefactToUpdate.additionalItems = this.form.additionalItems;
 
       this.$store.dispatch('artefacts/update', this.artefactToUpdate).then(() => {
         this.isOpen = false;
@@ -247,6 +292,18 @@ export default {
     },
     addMaterial() {
       this.form.materials.push({ ID: null, amount: 0 });
+    },
+    addAdditionalItem() {
+      this.form.additionalItems.push({ name: null, amount: 0 });
+    },
+    removeAdditionalItem(index) {
+      this.form.additionalItems.splice(index, 1);
+    },
+    incrementItem(index) {
+      this.form.additionalItems[index].amount++;
+    },
+    decrementItem(index) {
+      this.form.additionalItems[index].amount--;
     },
   },
   props: {

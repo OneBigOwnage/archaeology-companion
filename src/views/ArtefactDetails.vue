@@ -149,10 +149,17 @@ export default {
       });
     },
     table() {
+      let additionalItems = '-';
+
+      if (this.artefact.additionalItems.length > 0) {
+        additionalItems = this.artefact.additionalItems.map(item => `${item.amount}x ${item.name}`).join(', ');
+      }
+
       return [
         { label: 'Excavation', text: this.excavation.name, link: this.$router.resolve(this.excavation.route()).href },
         { label: 'Experience', text: this.artefact.formattedXP() },
         { label: 'Chronotes', text: this.artefact.chronotes },
+        { label: 'Additional items', text: additionalItems },
       ];
     },
   }
