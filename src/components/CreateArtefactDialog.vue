@@ -80,7 +80,7 @@
                       outlined
                       dense
                       v-model="form.materials[index].ID"
-                      :items="materials"
+                      :items="availableMaterials(index)"
                     ></v-autocomplete>
                   </v-col>
                   <v-col cols="3">
@@ -218,6 +218,13 @@ export default {
       });
 
       this.$router.push(artefact.route());
+    },
+    availableMaterials(index) {
+      const usedIDs = this.form.materials.map(obj => obj.ID);
+
+      return this.$store.state.materials.all
+        .map(autocompleteMapper)
+        .filter(obj => !usedIDs.includes(obj.value) || this.form.materials[index].ID === obj.value);
     },
     increment(index) {
       this.form.materials[index].amount++;
