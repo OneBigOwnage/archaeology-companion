@@ -10,20 +10,27 @@
         </v-toolbar>
 
         <v-container>
-          <v-form>
+          <v-form v-model="isFormValid" ref="form">
             <v-row justify="center">
               <v-col sm="12" lg="4">
-                <v-text-field v-model="form.name" outlined label="Excavation name" required></v-text-field>
+                <v-text-field
+                  outlined
+                  label="Excavation name"
+                  required
+                  v-model="form.name"
+                  :rules="rules.name"
+                ></v-text-field>
               </v-col>
             </v-row>
 
             <v-row justify="center">
               <v-col sm="12" lg="4">
                 <v-text-field
-                  v-model="form.level"
                   outlined
                   label="Skill level requirement"
                   required
+                  :rules="rules.level"
+                  v-model="form.level"
                 ></v-text-field>
               </v-col>
             </v-row>
@@ -32,9 +39,10 @@
               <v-col sm="12" lg="4">
                 <v-autocomplete
                   label="Dig site"
-                  v-model="form.digSiteID"
                   outlined
+                  v-model="form.digSiteID"
                   :items="digSites"
+                  :rules="rules.digSiteID"
                 ></v-autocomplete>
               </v-col>
             </v-row>
@@ -69,17 +77,24 @@
 import Excavation from '@/models/excavation';
 import EventBus from '@/eventbus';
 import { autocompleteMapper } from '@/helpers';
+import { required, numeric, between } from '@/validationrules';
 
 export default {
   data() {
     return {
       excavationToUpdate: null,
       isOpen: false,
+      isFormValid: false,
       form: {
         name: null,
         level: null,
         digSiteID: null,
         materials: null,
+      },
+      rules: {
+        name: [required()],
+        level: [required(), numeric(), between(1, 120)],
+        digSiteID: [required()],
       },
     };
   },
@@ -92,6 +107,12 @@ export default {
       this.form.materials = this.$store.getters['relations/materials'](this.excavation).map(material => material.ID);
     },
     save() {
+      this.$refs.form.validate();
+
+      if (!this.isFormValid) {
+        return;
+      }
+
       const isNameDiff = this.excavation.name !== this.form.name;
 
       this.updateRelatedMaterials();
