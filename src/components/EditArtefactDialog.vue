@@ -10,22 +10,40 @@
         </v-toolbar>
 
         <v-container>
-          <v-form>
+          <v-form v-model="isFormValid" ref="form">
             <v-row justify="center">
               <v-col sm="12" lg="4">
-                <v-text-field v-model="form.name" outlined label="Artefact name" required></v-text-field>
+                <v-text-field
+                  outlined
+                  label="Artefact name"
+                  required
+                  :rules="rules.name"
+                  v-model="form.name"
+                ></v-text-field>
               </v-col>
             </v-row>
 
             <v-row justify="center">
               <v-col sm="12" lg="4">
-                <v-text-field v-model="form.xp" outlined label="Restoration xp" required></v-text-field>
+                <v-text-field
+                  outlined
+                  label="Restoration xp"
+                  required
+                  v-model="form.xp"
+                  :rules="rules.xp"
+                ></v-text-field>
               </v-col>
             </v-row>
 
             <v-row justify="center">
               <v-col sm="12" lg="4">
-                <v-text-field v-model="form.chronotes" outlined label="Base chronotes" required></v-text-field>
+                <v-text-field
+                  outlined
+                  label="Base chronotes"
+                  required
+                  v-model="form.chronotes"
+                  :rules="rules.chronotes"
+                ></v-text-field>
               </v-col>
             </v-row>
 
@@ -35,6 +53,7 @@
                   label="Excavation"
                   v-model="form.excavationID"
                   outlined
+                  :rules="rules.excavationID"
                   :items="excavations"
                 ></v-autocomplete>
               </v-col>
@@ -44,11 +63,11 @@
               <v-col sm="12" lg="4">
                 <v-autocomplete
                   label="Collections"
-                  v-model="form.collections"
                   deletable-chips
                   small-chips
                   outlined
                   multiple
+                  v-model="form.collections"
                   :items="collections"
                 ></v-autocomplete>
               </v-col>
@@ -60,9 +79,9 @@
                   <v-col cols="8">
                     <v-autocomplete
                       label="Material"
-                      v-model="form.materials[index].ID"
                       outlined
                       dense
+                      v-model="form.materials[index].ID"
                       :items="materials"
                     ></v-autocomplete>
                   </v-col>
@@ -70,10 +89,10 @@
                     <v-text-field
                       append-icon="add"
                       class="counter-line-height-fix"
-                      v-model="form.materials[index].amount"
                       prepend-inner-icon="remove"
                       outlined
                       dense
+                      v-model="form.materials[index].amount"
                       v-on:click:append="increment(index)"
                       v-on:click:prepend-inner="decrement(index)"
                     ></v-text-field>
@@ -105,11 +124,13 @@
 import Artefact from '@/models/artefact';
 import EventBus from '@/eventbus';
 import { autocompleteMapper } from '@/helpers';
+import { required, numeric, positive } from '@/validationrules';
 
 export default {
   data() {
     return {
       artefactToUpdate: null,
+      isFormValid: false,
       isOpen: false,
       form: {
         name: null,
@@ -118,6 +139,12 @@ export default {
         excavationID: null,
         materials: [],
         collections: null,
+      },
+      rules: {
+        name: [required()],
+        xp: [required(), numeric(), positive()],
+        chronotes: [required(), numeric(), positive()],
+        excavationID: [required()],
       },
     };
   },
@@ -144,6 +171,12 @@ export default {
       this.form.collections = this.$store.getters['relations/collections'](this.artefact).map(collection => collection.ID);
     },
     save() {
+      this.$refs.form.validate();
+
+      if (!this.isFormValid) {
+        return;
+      }
+
       const isNameDiff = this.artefact.name !== this.form.name;
 
       this.updateRelatedMaterials();
