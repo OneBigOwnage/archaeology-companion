@@ -19,7 +19,8 @@
     <v-navigation-drawer v-model="drawer" app clipped color="grey lighten-4">
       <v-list nav class="grey lighten-4">
         <template v-for="(item, i) in items">
-          <v-list-item :key="i" link :to="item.route">
+          <v-divider v-if="item.divider" :key="i" dark class="my-4"></v-divider>
+          <v-list-item v-else :key="i" link :to="item.route">
             <v-list-item-action>
               <v-icon>{{ item.icon }}</v-icon>
             </v-list-item-action>
@@ -50,6 +51,8 @@ export default {
       { text: 'Dig sites', icon: 'account_balance', route: '/dig-sites' },
       { text: 'Excavations', icon: 'gavel', route: '/excavations' },
       { text: 'Collections', icon: 'view_quilt', route: '/collections' },
+      { divider: true },
+      { text: 'Calculators', icon: 'trending_up', route: '/calculators' }
     ],
   }),
   methods: {
