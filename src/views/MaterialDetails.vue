@@ -37,7 +37,7 @@
             </v-toolbar>
             <v-list dense>
               <v-list-item
-                v-for="artefact in artefacts"
+                v-for="(artefact, index) in artefacts"
                 :key="artefact.ID"
                 v-on:click="$router.push(artefact.route())"
               >
@@ -45,7 +45,7 @@
                   <v-list-item-title>{{ artefact.name }}</v-list-item-title>
                 </v-list-item-content>
                 <v-list-item-action>
-                  <v-list-item-action-text>x{{ material.level }}</v-list-item-action-text>
+                  <v-list-item-action-text>x{{ materialAmounts[index] }}</v-list-item-action-text>
                 </v-list-item-action>
               </v-list-item>
             </v-list>
@@ -117,6 +117,18 @@ export default {
       }
 
       return this.$store.getters['relations/excavations'](this.material);
+    },
+    materialAmounts() {
+      return this.artefacts.map(artefact => {
+        const getterArgs = { stateKey: 'artefacts_materials', firstID: artefact.ID, secondID: this.material.ID };
+        const pivot = this.$store.getters['relations/pivotProps'](getterArgs);
+
+        if (pivot && Object.prototype.hasOwnProperty.call(pivot, 'amount')) {
+          return pivot.amount;
+        }
+
+        return 0;
+      });
     },
     table() {
       return [
