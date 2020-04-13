@@ -12,8 +12,8 @@
 
       <v-spacer />
 
-      <!-- <app-import-export></app-import-export>
-      <v-btn v-on:click="seed()">seed</v-btn>-->
+      <app-import-export></app-import-export>
+      <!-- <v-btn v-on:click="seed()">seed</v-btn> -->
     </v-app-bar>
 
     <v-navigation-drawer v-model="drawer" app clipped color="grey lighten-4">

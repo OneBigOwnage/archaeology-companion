@@ -5,48 +5,44 @@
     </v-btn>
 
     <v-dialog v-model="isOpen" max-width="500">
-      <v-card>
-        <v-toolbar dark color="amber">
+      <v-card tile>
+        <v-toolbar tile flat dark color="amber">
           <v-btn icon dark v-on:click="isOpen = false">
             <v-icon>mdi-close</v-icon>
           </v-btn>
           <v-toolbar-title>Import / export state</v-toolbar-title>
         </v-toolbar>
-        <v-container style="margin-top: 20px;">
-          <v-row no-gutters>
+        <v-container class="reset">
+          <v-row justify="center">
             <v-col cols="7">
-              <v-text-field solo class="rounded-left" id="import-field" />
-            </v-col>
-            <v-col cols="4">
-              <v-btn
-                tile
-                color="amber"
-                large
-                height="48px"
-                class="rounded-right btn-200"
-                v-on:click="importState()"
-              >Import state</v-btn>
+              <input
+                type="text"
+                ref="import-input"
+                autocomplete="off"
+                autocorrect="off"
+                autocapitalize="off"
+                spellcheck="false"
+              />
+              <button v-on:click="importState()">Import</button>
             </v-col>
           </v-row>
-          <v-row no-gutters>
+          <v-row justify="center">
             <v-col cols="7">
-              <v-text-field solo ref="export-field" class="rounded-left" id="export-field" />
-            </v-col>
-            <v-col cols="4">
-              <v-btn
-                tile
-                color="amber"
-                large
-                height="48px"
-                class="rounded-right btn-200"
-                v-on:click="copyStateToClipBoard()"
-              >Copy to clipboard</v-btn>
+              <input
+                type="text"
+                ref="export-input"
+                autocomplete="off"
+                autocorrect="off"
+                autocapitalize="off"
+                spellcheck="false"
+              />
+              <button v-on:click="exportState()">Export</button>
             </v-col>
           </v-row>
         </v-container>
         <v-card-actions right>
           <v-spacer></v-spacer>
-          <v-btn color="amber" v-on:click="isOpen = false">Close</v-btn>
+          <v-btn color="amber" tile depressed v-on:click="isOpen = false">Close</v-btn>
         </v-card-actions>
       </v-card>
     </v-dialog>
@@ -54,6 +50,8 @@
 </template>
 
 <script>
+const LOCAL_STORAGE_KEY = 'vuex';
+
 export default {
   data() {
     return {
@@ -62,53 +60,47 @@ export default {
   },
   methods: {
     importState() {
-      const input__vanillaInstance = document.getElementById('import-field');
-      const state = input__vanillaInstance.value;
+      const input = this.$refs['import-input'];
+      const state = input.value;
 
-      new Promise(resolve => {
-        localStorage.setItem('vuex', state);
+      try {
+        JSON.parse(state);
+      } catch {
+        console.error('The given string is not valid JSON.');
+      }
 
-        resolve();
-      }).then(() => {
-        window.location.reload();
-      });
+      localStorage.setItem(LOCAL_STORAGE_KEY, state);
     },
-    copyStateToClipBoard() {
-      const input__VueInstance = this.$refs['export-field'];
-      const input__vanillaInstance = document.getElementById('export-field');
+    exportState() {
+      const input = this.$refs['export-input'];
+      const state = localStorage.getItem(LOCAL_STORAGE_KEY);
 
-      new Promise(resolve => {
-        const state = localStorage.getItem('vuex');
+      input.value = state;
+      input.select();
 
-        input__vanillaInstance.value = state;
-        input__vanillaInstance.select();
-        document.execCommand('copy');
-
-        resolve();
-      }).then(() => {
-        input__VueInstance.lazyValue = 'Copied to the clipboard...';
-      }).then(() => {
-        input__vanillaInstance.select();
-      });
+      document.execCommand('copy');
     },
   },
 }
 </script>
 
 <style>
-.rounded-right {
-  border-radius: 0;
-  border-top-right-radius: 50px;
-  border-bottom-right-radius: 50px;
+.reset {
+  margin-top: 20px;
 }
 
-.rounded-left {
-  border-radius: 0;
-  border-top-left-radius: 50px;
-  border-bottom-left-radius: 50px;
+.reset button {
+  background-color: rgb(240, 240, 240);
+  border-style: outset;
+  color: black;
+  padding-left: 5px;
+  padding-right: 5px;
+  margin-left: 5px;
 }
 
-.btn-200 {
-  width: 200px;
+.reset input {
+  background-color: rgb(255, 255, 255);
+  border-style: inset;
+  color: black;
 }
 </style>
