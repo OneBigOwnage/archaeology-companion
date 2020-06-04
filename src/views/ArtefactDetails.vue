@@ -4,6 +4,12 @@
       <v-icon left>mdi-chevron-left</v-icon>To overview
     </v-btn>
 
+    <app-confirmation-dialog
+      ref="deleteDialog"
+      :onConfirm="deleteArtefact"
+      bodyText="Are you sure you want to delete this artefact? This action cannot be undone."
+    ></app-confirmation-dialog>
+
     <app-loader v-if="!artefact"></app-loader>
 
     <v-container v-else>
@@ -20,6 +26,9 @@
               <v-spacer></v-spacer>
               <v-btn icon v-on:click="openEditDialog()">
                 <v-icon>edit</v-icon>
+              </v-btn>
+              <v-btn icon v-on:click="$refs.deleteDialog.open()">
+                <v-icon>delete</v-icon>
               </v-btn>
             </v-toolbar>
 
@@ -81,14 +90,17 @@
 <script>
 import EventBus from '@/eventbus';
 import AppEditArtefactDialog from '@/components/EditArtefactDialog';
+import AppConfirmationDialog from '@/components/ConfirmationDialog';
 
 export default {
   components: {
-    AppEditArtefactDialog
+    AppEditArtefactDialog,
+    AppConfirmationDialog,
   },
   data() {
     return {
       artefact: null,
+      showDeletionConfirmation: false,
     };
   },
   mounted() {
@@ -112,6 +124,12 @@ export default {
       }
 
       return 0;
+    },
+    deleteArtefact() {
+      // @TODO [Niek, 2020-06-04] Check if the artefact has any relations, in which case it cannot be deleted.
+      this.$store.dispatch('artefacts/delete', this.artefact);
+
+      this.$router.push({name: 'artefact-overview'});
     },
   },
   computed: {
@@ -162,7 +180,7 @@ export default {
         { label: 'Additional items', text: additionalItems },
       ];
     },
-  }
+  },
 }
 </script>
 
