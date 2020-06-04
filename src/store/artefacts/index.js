@@ -18,6 +18,9 @@ const mutations = {
         const index = state.all.findIndex(artefact => artefact.ID === updatedArtefact.ID);
         state.all[index] = updatedArtefact;
     },
+    delete(state, artefactToDelete) {
+        state.all = state.all.filter(artefact => artefact.ID !== artefactToDelete.ID);
+    },
     reset(state) {
         Object.assign(state, initial());
     },
@@ -29,6 +32,9 @@ const actions = {
     },
     update({ commit }, updatedArtefact) {
         commit('update', updatedArtefact);
+    },
+    delete({ commit }, artefactToDelete) {
+        commit('delete', artefactToDelete);
     },
     reset({ commit }) {
         commit('reset');
