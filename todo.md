@@ -1,10 +1,9 @@
 # Must have
-- Improve import/export functionality
-    - Must be quicker
-    - Can use standard HTML components.
 - Delete button
     - Need to check if there is any relational data that prevents deletion
     - Confirmation dialog
+- App home
+    - Home screen with links to the 5 base items and links to calculators.
 - Calculators
     - How much of each material do I need to buy to finish the given artefacts?
     - What collections can I complete with the given finished artefacts?
